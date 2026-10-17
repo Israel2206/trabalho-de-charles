@@ -2,43 +2,78 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Cliente - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
-<body>
+<body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>
 
-    <div class="container">
-        <h1>Cadastrar Cliente</h1>
+    <div class="split-container">
+        <!-- LADO ESQUERDO: Arte e Mensagem de Destaque -->
+        <div class="split-art">
+            <div class="art-text">
+                <h2>Faça seu Cadastro</h2>
+                <p>E venha saborear as melhores pizzas da Chapada!</p>
+            </div>
+            <img src="Pizzaria-da-ChapadaLogin.png" alt="Pizzaria da Chapada Logo" class="art-image">
+        </div>
 
-        <form action="cad_user.php" method="POST">
-            <label>Nome completo *</label>
-            <input type="text" name="nome" placeholder="Digite o nome" required>
+        <!-- LADO DIREITO: Card do Formulário Moderno -->
+        <div class="split-form-card">
+            <h2>Cadastrar Cliente</h2>
 
-            <label>E-mail *</label>
-            <input type="email" name="email" placeholder="cliente@exemplo.com" required>
+            <form action="cad_user.php" method="POST" class="modern-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nome completo *</label>
+                        <input type="text" name="nome" placeholder="Digite o nome completo" required>
+                    </div>
 
-            <label>Senha *</label>
-            <input type="password" name="senha" placeholder="Digite a senha" required>
+                    <div class="form-group">
+                        <label>E-mail *</label>
+                        <input type="email" name="email" placeholder="cliente@exemplo.com" required>
+                    </div>
+                </div>
 
-            <label>Telefone</label>
-            <input type="text" name="telefone" placeholder="(75) 99999-9999">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Senha *</label>
+                        <input type="password" name="senha" placeholder="Digite a senha" required>
+                    </div>
 
-            <label>Endereço de entrega</label>
-            <input type="text" name="endereco" placeholder="Rua, número, bairro">
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="text" name="telefone" placeholder="(75) 99999-9999">
+                    </div>
+                </div>
 
-            <label>Data de Cadastro</label>
-            <input type="date" name="datacad" value="<?= date('Y-m-d') ?>" required>
+                <div class="form-group">
+                    <label>Endereço de entrega</label>
+                    <input type="text" name="endereco" placeholder="Rua, número, bairro">
+                </div>
 
-            <label>Nível de acesso</label>
-            <select name="nivel">
-                <option value="1">Cliente (Padrão)</option>
-                <option value="2">Administrador</option>
-            </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Data de Cadastro</label>
+                        <input type="date" name="datacad" value="<?= date('Y-m-d') ?>" required>
+                    </div>
 
-            <button type="submit">Cadastrar Cliente</button>
-            <a href="consultar_user.php" class="btn btn-secondary" style="margin-top: 10px;">Ver Tabela de Clientes</a>
-        </form>
+                    <div class="form-group">
+                        <label>Nível de acesso</label>
+                        <select name="nivel">
+                            <option value="1">Cliente (Padrão)</option>
+                            <option value="2">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn-dominos btn-primary btn-full">Cadastrar Cliente</button>
+                    <a href="consultar_user.php" class="btn-dominos btn-outline btn-full">Ver Tabela de Clientes</a>
+                </div>
+            </form>
+        </div>
     </div>
 
     <?php include 'rodape.php'; ?>

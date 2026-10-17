@@ -1,7 +1,6 @@
 <?php
 include "conexao.php";
 
-// Contagens rápidas de registros
 $total_clientes = 0;
 $total_categorias = 0;
 $total_produtos = 0;
@@ -23,67 +22,74 @@ if ($q_ped) { $total_pedidos = mysqli_fetch_assoc($q_ped)['total']; }
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=4.0">
 </head>
-<body>
+<body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>
 
-    <div class="container-large">
-        <h1>🍕 Painel Pizzaria da Chapada</h1>
-        <p style="text-align: center; color: #6b7280; margin-top: -15px; margin-bottom: 30px;">
-            Sistema de Gestão simples e integrado com o banco de dados.
-        </p>
+    <div class="main-wrapper">
+        <div class="painel-title">
+            <h2>Painel Pizzaria da Chapada</h2>
+            <p>Sistema de Gestão simples e integrado com o banco de dados.</p>
+        </div>
 
-        <div class="cards-grid">
-            <!-- Card Clientes -->
-            <div class="card">
-                <h3>👥 Clientes</h3>
-                <div class="card-number"><?= $total_clientes ?></div>
-                <div>
-                    <a href="form_cad_user.php">+ Cadastrar</a> | 
-                    <a href="consultar_user.php">Ver Tabela</a>
+        <div class="dominos-grid">
+            <!-- Slot Clientes -->
+            <div class="dominos-card">
+                <div class="card-header-info">
+                    <h3>Clientes</h3>
+                    <span class="badge-count"><?= $total_clientes ?> cadastrados</span>
+                </div>
+                <div class="card-actions">
+                    <a href="form_cad_user.php" class="btn-dominos btn-primary">+ Cadastrar</a>
+                    <a href="consultar_user.php" class="btn-dominos btn-outline">Ver Tabela</a>
                 </div>
             </div>
 
-            <!-- Card Categorias -->
-            <div class="card">
-                <h3>📁 Categorias</h3>
-                <div class="card-number"><?= $total_categorias ?></div>
-                <div>
-                    <a href="form_cad_categoria.php">+ Cadastrar</a> | 
-                    <a href="consultar_categoria.php">Ver Tabela</a>
+            <!-- Slot Categorias -->
+            <div class="dominos-card">
+                <div class="card-header-info">
+                    <h3>Categorias</h3>
+                    <span class="badge-count"><?= $total_categorias ?> cadastradas</span>
+                </div>
+                <div class="card-actions">
+                    <a href="form_cad_categoria.php" class="btn-dominos btn-primary">+ Cadastrar</a>
+                    <a href="consultar_categoria.php" class="btn-dominos btn-outline">Ver Tabela</a>
                 </div>
             </div>
 
-            <!-- Card Produtos -->
-            <div class="card">
-                <h3>🍕 Produtos</h3>
-                <div class="card-number"><?= $total_produtos ?></div>
-                <div>
-                    <a href="form_cad_produto.php">+ Cadastrar</a> | 
-                    <a href="consultar_produto.php">Ver Tabela</a>
+            <!-- Slot Produtos -->
+            <div class="dominos-card">
+                <div class="card-header-info">
+                    <h3>Produtos</h3>
+                    <span class="badge-count"><?= $total_produtos ?> cadastrados</span>
+                </div>
+                <div class="card-actions">
+                    <a href="form_cad_produto.php" class="btn-dominos btn-primary">+ Cadastrar</a>
+                    <a href="consultar_produto.php" class="btn-dominos btn-outline">Ver Tabela</a>
                 </div>
             </div>
 
-            <!-- Card Pedidos -->
-            <div class="card">
-                <h3>📦 Pedidos</h3>
-                <div class="card-number"><?= $total_pedidos ?></div>
-                <div>
-                    <a href="form_cad_pedido.php">+ Novo Pedido</a> | 
-                    <a href="consultar_pedido.php">Ver Tabela</a>
+            <!-- Slot Pedidos -->
+            <div class="dominos-card">
+                <div class="card-header-info">
+                    <h3>Pedidos</h3>
+                    <span class="badge-count"><?= $total_pedidos ?> realizados</span>
+                </div>
+                <div class="card-actions">
+                    <a href="form_cad_pedido.php" class="btn-dominos btn-primary">+ Novo Pedido</a>
+                    <a href="consultar_pedido.php" class="btn-dominos btn-outline">Ver Tabela</a>
                 </div>
             </div>
         </div>
 
-        <div style="margin-top: 40px; padding: 20px; background-color: #fef3c7; border-radius: 8px; border: 1px solid #fde68a; color: #92400e;">
-            <h3 style="margin-top: 0; color: #92400e; font-size: 16px;">💡 Dica de Utilização:</h3>
-            <p style="margin: 5px 0; font-size: 14px;">
-                1. Comece cadastrando <strong>Clientes</strong> e <strong>Categorias</strong>.<br>
-                2. Depois cadastre os <strong>Produtos</strong> vinculando à categoria desejada.<br>
-                3. Por fim, realize novos <strong>Pedidos</strong> selecionando o cliente e o produto!
-            </p>
+        <div class="dica-card">
+            <h4>💡 Dica de Utilização:</h4>
+            <p>1. Comece cadastrando <strong>Clientes</strong> e <strong>Categorias</strong>.</p>
+            <p>2. Depois cadastre os <strong>Produtos</strong> vinculando à categoria desejada.</p>
+            <p>3. Por fim, realize novos <strong>Pedidos</strong> selecionando o cliente e o produto!</p>
         </div>
     </div>
 
