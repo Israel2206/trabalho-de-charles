@@ -1,25 +1,37 @@
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
     .menu-ifba {
-        background-color: #FBBF24;
-        padding: 10px 20px;
-        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        padding: 10px 40px;
         display: flex;
         align-items: center;
-        flex-wrap: wrap;
-        gap: 5px;
+        justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(120, 53, 15, 0.2);
+        border-bottom: 4px solid #b91c1c;
+        font-family: 'Poppins', sans-serif;
     }
 
-    .menu-ifba .logo {
-        color: #78350f;
-        font-size: 20px;
-        font-weight: bold;
-        text-decoration: none;
-        padding: 8px 15px;
-        margin-right: 15px;
+    .menu-ifba .logo-container {
+        display: flex;
+        align-items: center;
     }
 
-    .menu-ifba .logo:hover {
-        opacity: 0.85;
+    /* Logo pura sem circulo ou bordas brancas */
+    .menu-ifba .logo-img {
+        height: 85px;
+        width: auto;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .menu-ifba .logo-img:hover {
+        transform: scale(1.05);
+    }
+
+    .menu-ifba .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
 
     .menu-ifba .item-menu {
@@ -28,36 +40,38 @@
 
     .menu-ifba .item-menu > a {
         display: block;
-        color: #78350f;
+        color: #ffffff;
         font-weight: 600;
         text-decoration: none;
-        padding: 10px 14px;
-        font-size: 14px;
-        border-radius: 4px;
-        transition: background-color 0.2s;
+        padding: 10px 18px;
+        font-size: 15px;
+        border-radius: 8px;
+        background-color: rgba(120, 53, 15, 0.25);
+        transition: background-color 0.2s, color 0.2s;
     }
 
     .menu-ifba .item-menu > a:hover {
-        background-color: #f59e0b;
+        background-color: #b91c1c;
         color: #ffffff;
     }
 
     .menu-ifba .submenu {
         display: none;
         position: absolute;
-        top: 100%;
+        top: 105%;
         left: 0;
-        min-width: 190px;
+        min-width: 210px;
         background-color: white;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        border-radius: 6px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        border-radius: 8px;
         z-index: 9999;
         overflow: hidden;
+        border-top: 3px solid #b91c1c;
     }
 
     .menu-ifba .submenu a {
         display: block;
-        padding: 10px 15px;
+        padding: 12px 18px;
         color: #374151;
         text-decoration: none;
         font-size: 14px;
@@ -67,8 +81,8 @@
 
     .menu-ifba .submenu a:hover {
         background-color: #fef3c7;
-        color: #b45309;
-        font-weight: bold;
+        color: #b91c1c;
+        font-weight: 600;
     }
 
     .menu-ifba .item-menu:hover .submenu,
@@ -76,47 +90,45 @@
         display: block;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
         .menu-ifba {
-            display: block;
+            flex-direction: column;
+            gap: 15px;
+            padding: 15px;
         }
-
-        .menu-ifba .logo {
-            display: block;
-        }
-
-        .menu-ifba .item-menu > a {
-            padding: 10px 15px;
-        }
-
-        .menu-ifba .submenu {
-            position: static;
-            box-shadow: none;
-            margin-left: 15px;
+        .menu-ifba .nav-links {
+            width: 100%;
+            justify-content: center;
         }
     }
 </style>
 
 <nav class="menu-ifba">
-    <a href="index.php" class="logo">🍕 Pizzaria da Chapada</a>
-
-    <div class="item-menu">
-        <a href="#">Cadastro &#9662;</a>
-        <div class="submenu">
-            <a href="form_cad_user.php">Cadastrar Cliente</a>
-            <a href="form_cad_categoria.php">Cadastrar Categoria</a>
-            <a href="form_cad_produto.php">Cadastrar Produto</a>
-            <a href="form_cad_pedido.php">Cadastrar Pedido</a>
-        </div>
+    <div class="logo-container">
+        <a href="index.php">
+            <img src="logoCircularPizzariaChapada.png" alt="Logo Pizzaria da Chapada" class="logo-img">
+        </a>
     </div>
 
-    <div class="item-menu">
-        <a href="#">Consultar Tabelas &#9662;</a>
-        <div class="submenu">
-            <a href="consultar_user.php">Tabela Clientes</a>
-            <a href="consultar_categoria.php">Tabela Categorias</a>
-            <a href="consultar_produto.php">Tabela Produtos</a>
-            <a href="consultar_pedido.php">Tabela Pedidos</a>
+    <div class="nav-links">
+        <div class="item-menu">
+            <a href="#">Cadastro &#9662;</a>
+            <div class="submenu">
+                <a href="form_cad_user.php">Cadastrar Cliente</a>
+                <a href="form_cad_categoria.php">Cadastrar Categoria</a>
+                <a href="form_cad_produto.php">Cadastrar Produto</a>
+                <a href="form_cad_pedido.php">Cadastrar Pedido</a>
+            </div>
+        </div>
+
+        <div class="item-menu">
+            <a href="#">Consultar Tabelas &#9662;</a>
+            <div class="submenu">
+                <a href="consultar_user.php">Tabela Clientes</a>
+                <a href="consultar_categoria.php">Tabela Categorias</a>
+                <a href="consultar_produto.php">Tabela Produtos</a>
+                <a href="consultar_pedido.php">Tabela Pedidos</a>
+            </div>
         </div>
     </div>
 </nav>

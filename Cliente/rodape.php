@@ -1,25 +1,22 @@
-<?php
-// footer.php
-?>
-
 <style>
     .ifba-footer {
-        background-color: #D97706;
+        background: linear-gradient(135deg, #d97706, #b45309);
         color: #ffffff;
-        font-family: Arial, Helvetica, sans-serif;
-        margin-top: 40px;
+        font-family: 'Poppins', sans-serif;
+        margin-top: auto;
         width: 100%;
+        border-top: 4px solid #b91c1c;
     }
 
     .ifba-footer a {
-        color: #ffffff;
+        color: #fef3c7;
         text-decoration: none;
         transition: opacity 0.2s;
     }
 
     .ifba-footer a:hover {
         text-decoration: underline;
-        opacity: 0.85;
+        color: #ffffff;
     }
 
     .ifba-footer-main {
@@ -37,113 +34,54 @@
     }
 
     .ifba-footer-section h3 {
-        font-size: 17px;
+        font-size: 18px;
         margin: 0 0 15px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #ffffff;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #fef3c7;
+        color: #ffffff;
     }
 
     .ifba-footer-section p {
         font-size: 14px;
         line-height: 1.7;
         margin: 6px 0;
-    }
-
-    .ifba-footer-section ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .ifba-footer-section li {
-        margin-bottom: 10px;
-        font-size: 14px;
+        color: #fff7ed;
     }
 
     .ifba-footer-bottom {
-        background-color: #1F2937;
+        background-color: #1f2937;
+        color: #9ca3af;
         text-align: center;
         padding: 16px 20px;
         font-size: 13px;
         line-height: 1.6;
+        border-top: 1px solid #374151;
     }
 
     .ifba-footer-bottom p {
         margin: 4px 0;
     }
-
-    @media (max-width: 600px) {
-        .ifba-footer-main {
-            flex-direction: column;
-            gap: 20px;
-            padding: 25px 20px;
-        }
-
-        .ifba-footer-section {
-            flex-basis: auto;
-        }
-
-        .ifba-footer-section h3 {
-            font-size: 16px;
-        }
-    }
 </style>
 
 <footer class="ifba-footer">
-
     <div class="ifba-footer-main">
-
-        <!-- Identificação institucional -->
         <section class="ifba-footer-section">
             <h3>Pizzaria da Chapada</h3>
-
-            <p>
-                Pizzariada Chapada para você!!!
-            </p>
-
-            <p>
-               Aproveita e faça seu pedido.
-            </p>
+            <p>Pizzaria da Chapada para você!</p>
+            <p>Aproveite e faça seu pedido.</p>
         </section>
 
-        <!-- Contato -->
         <section class="ifba-footer-section">
             <h3>Contato</h3>
-
-            <p>
-                <strong>Dono:</strong> Pitomba
-            </p>
-
-            <p>
-                <strong>Endereço:</strong> Veredinha
-            </p>
-
-            <p>
-                <strong>E-mail:</strong>
-                <a href="mailto:contato@exemplo.com">
-                    pizzariadachapada@gmail.com
-                </a>
-            </p>
-
-            <p>
-                <strong>Telefone:</strong> 75 9834-4321
-            </p>
+            <p><strong>Dono:</strong> Pitomba</p>
+            <p><strong>Endereço:</strong> Veredinha</p>
+            <p><strong>E-mail:</strong> <a href="mailto:pizzariadachapada@gmail.com">pizzariadachapada@gmail.com</a></p>
+            <p><strong>Telefone:</strong> (75) 99834-4321</p>
         </section>
-
-
     </div>
 
-    <!-- Direitos autorais -->
     <div class="ifba-footer-bottom">
-        <p>
-            &copy; <?= date('Y') ?>
-            Pizzaria da Chapda - Veredinha
-            Todos os direitos reservados.
-        </p>
-
-        <p>
-            Desenvolvido para fins institucionais e educacionais.
-        </p>
+        <p>&copy; <?= date('Y') ?> Pizzaria da Chapada - Veredinha. Todos os direitos reservados.</p>
+        <p>Desenvolvido para fins institucionais e educacionais.</p>
     </div>
-
 </footer>
