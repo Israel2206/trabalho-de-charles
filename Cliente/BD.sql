@@ -1,62 +1,56 @@
-CREATE DATABASE pizzaria_chapada;
+CREATE DATABASE IF NOT EXISTS pizzaria_chapada;
 
 USE pizzaria_chapada;
 
-create table usuario(
-    id_usu int primary key auto_increment,
-    nome varchar(55) not null,	
-    email varchar(60) unique not null,
-    senha char(64) not null,
-    datacad datetime not null,
-    nivel_acesso int not null
-);
+-- Tabela unificada: Usuário e Cliente unidos em uma única entidade
+CREATE TABLE cliente (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    telefone VARCHAR(20),
+    endereco VARCHAR(255),
+    datacad DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    nivel_acesso INT NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabela de categorias
+CREATE TABLE categoria (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    descricao TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table cliente (
-    id int primary key auto_increment,
-    nome varchar(100) not null,
-    telefone varchar(20),
-    endereco varchar(255),
-    id_usuario int,
-    foreign key (id_usuario) references usuario(id_usu)
-);
+-- Tabela de produtos
+CREATE TABLE produto (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(150) NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    estoque INT NOT NULL DEFAULT 0,
+    id_categoria INT NOT NULL,
+    FOREIGN KEY (id_categoria) REFERENCES categoria(id) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabela de pedidos
+CREATE TABLE pedido (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    data_pedido DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(30) NOT NULL DEFAULT 'Pendente',
+    valor_total DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    id_cliente INT NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-create table categoria (
-    id int primary key auto_increment,
-    nome varchar(100) not null,
-    descricao text
-);
+-- Tabela de itens do pedido
+CREATE TABLE item_pedido (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_pedido INT NOT NULL,
+    id_produto INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco_unitario DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_produto) REFERENCES produto(id) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-create table produto (
-    id int primary key auto_increment,
-    nome varchar(150) not null,
-    preco float not null,
-    estoque int not null default 0,
-    id_categoria int not null,
-    foreign key (id_categoria) references categoria(id)
-);
-
-
-create table pedido (
-    id int primary key auto_increment,
-    data_pedido datetime not null default current_timestamp,
-    status varchar(30) not null,
-    valor_total float not null default 0.00,
-    id_cliente int not null,
-    foreign key (id_cliente) references cliente(id)
-);
-
-
-create table item_pedido (
-    id int primary key auto_increment,
-    id_pedido int not null,
-    id_produto int not null,
-    quantidade int not null,
-    preco_unitario float not null,
-    foreign key (id_pedido) references pedido(id),
-    foreign key (id_produto) references produto(id)
-);
 
 

@@ -1,7 +1,7 @@
 <style>
     .menu-ifba {
         background-color: #FBBF24;
-        padding: 10px 15px;
+        padding: 10px 20px;
         font-family: Arial, sans-serif;
         display: flex;
         align-items: center;
@@ -10,12 +10,16 @@
     }
 
     .menu-ifba .logo {
-        color: white;
-        font-size: 18px;
+        color: #78350f;
+        font-size: 20px;
         font-weight: bold;
         text-decoration: none;
-        padding: 10px 15px;
-        margin-right: 10px;
+        padding: 8px 15px;
+        margin-right: 15px;
+    }
+
+    .menu-ifba .logo:hover {
+        opacity: 0.85;
     }
 
     .menu-ifba .item-menu {
@@ -24,15 +28,18 @@
 
     .menu-ifba .item-menu > a {
         display: block;
-        color: white;
+        color: #78350f;
+        font-weight: 600;
         text-decoration: none;
-        padding: 12px 14px;
+        padding: 10px 14px;
         font-size: 14px;
         border-radius: 4px;
+        transition: background-color 0.2s;
     }
 
     .menu-ifba .item-menu > a:hover {
-        background-color: #12370c;
+        background-color: #f59e0b;
+        color: #ffffff;
     }
 
     .menu-ifba .submenu {
@@ -40,24 +47,28 @@
         position: absolute;
         top: 100%;
         left: 0;
-        min-width: 170px;
+        min-width: 190px;
         background-color: white;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        border-radius: 6px;
         z-index: 9999;
+        overflow: hidden;
     }
 
     .menu-ifba .submenu a {
         display: block;
-        padding: 11px 15px;
-        color: #333;
+        padding: 10px 15px;
+        color: #374151;
         text-decoration: none;
         font-size: 14px;
+        border-bottom: 1px solid #f3f4f6;
+        transition: background-color 0.2s, color 0.2s;
     }
 
     .menu-ifba .submenu a:hover {
-        background-color: #f5e5e6;
-        color:  #006633;
+        background-color: #fef3c7;
+        color: #b45309;
+        font-weight: bold;
     }
 
     .menu-ifba .item-menu:hover .submenu,
@@ -87,45 +98,25 @@
 </style>
 
 <nav class="menu-ifba">
-    <a href="index.php" class="logo">Pizzaria da Chapada</a>
+    <a href="index.php" class="logo">🍕 Pizzaria da Chapada</a>
 
     <div class="item-menu">
         <a href="#">Cadastro &#9662;</a>
         <div class="submenu">
-            <a href="form_cad_user.php">Cadratro cliente</a>
-            <a href="form_cad_pedido">Cadastro de Pedido</a>
-            <a href="form_cad_endereco.php">Cadastro Endereço</a>
-            <a href="form_cad_produto.php">Cad Produto</a>
+            <a href="form_cad_user.php">Cadastrar Cliente</a>
+            <a href="form_cad_categoria.php">Cadastrar Categoria</a>
+            <a href="form_cad_produto.php">Cadastrar Produto</a>
+            <a href="form_cad_pedido.php">Cadastrar Pedido</a>
         </div>
     </div>
 
     <div class="item-menu">
-        <a href="#">Editar &#9662;</a>
+        <a href="#">Consultar Tabelas &#9662;</a>
         <div class="submenu">
-            <a href="editar_user.php">Cad User</a>
-            <a href="editar_livre.php">Cad Livre</a>
-            <a href="editar_end.php">Cad End</a>
-            <a href="editar_venda.php">Cad Venda</a>
-        </div>
-    </div>
-
-    <div class="item-menu">
-        <a href="#">Consultar &#9662;</a>
-        <div class="submenu">
-            <a href="consultar_user.php">Cad User</a>
-            <a href="consultar_livre.php">Cad Livre</a>
-            <a href="consultar_end.php">Cad End</a>
-            <a href="consultar_venda.php">Cad Venda</a>
-        </div>
-    </div>
-
-    <div class="item-menu">
-        <a href="#">Excluir &#9662;</a>
-        <div class="submenu">
-            <a href="excluir_user.php">Cad User</a>
-            <a href="excluir_livre.php">Cad Livre</a>
-            <a href="excluir_end.php">Cad End</a>
-            <a href="excluir_venda.php">Cad Venda</a>
+            <a href="consultar_user.php">Tabela Clientes</a>
+            <a href="consultar_categoria.php">Tabela Categorias</a>
+            <a href="consultar_produto.php">Tabela Produtos</a>
+            <a href="consultar_pedido.php">Tabela Pedidos</a>
         </div>
     </div>
 </nav>

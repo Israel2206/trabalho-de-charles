@@ -1,24 +1,60 @@
 <?php
-
 include "conexao.php";
 
-$nome = $_POST["nome"];
-$email = $_POST["email"];
-$senha = $_POST["senha"];
-$datacad = $_POST["datacad"];
-$nivel = $_POST["nivel"];
-$senha_segura = password_hash($senha, PASSWORD_DEFAULT);
+$nome = isset($_POST["nome"]) ? mysqli_real_escape_string($conexao, trim($_POST["nome"])) : '';
+$email = isset($_POST["email"]) ? mysqli_real_escape_string($conexao, trim($_POST["email"])) : '';
+$senha = isset($_POST["senha"]) ? $_POST["senha"] : '';
+$telefone = isset($_POST["telefone"]) ? mysqli_real_escape_string($conexao, trim($_POST["telefone"])) : '';
+$endereco = isset($_POST["endereco"]) ? mysqli_real_escape_string($conexao, trim($_POST["endereco"])) : '';
+$datacad = !empty($_POST["datacad"]) ? $_POST["datacad"] : date('Y-m-d H:i:s');
+$nivel = isset($_POST["nivel"]) ? intval($_POST["nivel"]) : 1;
 
-$sql = "INSERT INTO usuario (nome, email, senha, datacad, nivel_acesso)
-        VALUES ('$nome', '$email', '$senha_segura', '$datacad', '$nivel')";
+$mensagem = "";
+$sucesso = false;
 
+if (!empty($nome) && !empty($email) && !empty($senha)) {
+    $senha_segura = password_hash($senha, PASSWORD_DEFAULT);
 
-$resultado = mysqli_query($conexao, $sql);
+    $sql = "INSERT INTO cliente (nome, email, senha, telefone, endereco, datacad, nivel_acesso)
+            VALUES ('$nome', '$email', '$senha_segura', '$telefone', '$endereco', '$datacad', '$nivel')";
 
-if ($resultado) {
-    echo "Usuário cadastrado com sucesso!";
+    if (mysqli_query($conexao, $sql)) {
+        $sucesso = true;
+        $mensagem = "Cliente cadastrado com sucesso!";
+    } else {
+        $mensagem = "Erro ao cadastrar cliente: " . mysqli_error($conexao);
+    }
 } else {
-    echo "Erro ao cadastrar usuário.";
+    $mensagem = "Por favor, preencha todos os campos obrigatórios!";
 }
-
 ?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado do Cadastro - Pizzaria da Chapada</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <?php include 'Menu1.php'; ?>
+
+    <div class="container">
+        <h1>Status do Cadastro</h1>
+
+        <?php if ($sucesso): ?>
+            <div class="alert alert-success">
+                <?= $mensagem ?>
+            </div>
+            <a href="consultar_user.php" class="btn">Visualizar Clientes Cadastrados</a>
+            <a href="form_cad_user.php" class="btn btn-secondary" style="margin-top: 10px;">Cadastrar Outro Cliente</a>
+        <?php else: ?>
+            <div class="alert alert-error">
+                <?= $mensagem ?>
+            </div>
+            <a href="form_cad_user.php" class="btn btn-secondary">Voltar ao Formulário</a>
+        <?php endif; ?>
+    </div>
+
+    <?php include 'rodape.php'; ?>
+</body>
+</html>

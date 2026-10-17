@@ -1,14 +1,20 @@
 <?php
 
 $servidor = "localhost";
-$usuario = "root";
-$senha = "";
-$banco = "Breno3182i";
+$usuario = "breno";
+$senha = "Breno.2008";
+$banco = "pizzaria_chapada";
 
-$conexao = mysqli_connect($servidor,$usuario,$senha,$banco);
-
+// Tenta conectar ao banco pizzaria_chapada; se não existir, tenta Breno3182i
+$conexao = @mysqli_connect($servidor, $usuario, $senha, $banco);
 if (!$conexao) {
-    die("Erro na conexão com o banco de dados");
+    $banco = "Breno3182i";
+    $conexao = @mysqli_connect($servidor, $usuario, $senha, $banco);
 }
 
+if (!$conexao) {
+    die("Erro na conexão com o banco de dados: " . mysqli_connect_error());
+}
+
+mysqli_set_charset($conexao, "utf8mb4");
 ?>
