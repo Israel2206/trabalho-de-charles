@@ -1,8 +1,7 @@
--- Criação e seleção do banco de dados da pizzaria
+
 CREATE DATABASE IF NOT EXISTS pizzaria_chapada;
 USE pizzaria_chapada;
 
--- Tabela de clientes e usuários (autenticação e dados para entrega)
 CREATE TABLE cliente (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
@@ -11,17 +10,15 @@ CREATE TABLE cliente (
     telefone VARCHAR(20),
     endereco VARCHAR(255),
     datacad DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    nivel_acesso INT NOT NULL DEFAULT 1 -- 1: Cliente comum, 2: Administrador
+    nivel_acesso INT NOT NULL DEFAULT 1 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Categorias para organização do cardápio (ex: Salgadas, Doces, Bebidas)
 CREATE TABLE categoria (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
     descricao TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Produtos disponíveis com preço, estoque e vínculo à categoria
 CREATE TABLE produto (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(150) NOT NULL,
@@ -31,17 +28,15 @@ CREATE TABLE produto (
     FOREIGN KEY (id_categoria) REFERENCES categoria(id) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Pedidos vinculados aos clientes com status e valor total
 CREATE TABLE pedido (
     id INT PRIMARY KEY AUTO_INCREMENT,
     data_pedido DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(30) NOT NULL DEFAULT 'Pendente', -- Status: Pendente, Em preparo, Saiu para entrega, Entregue
+    status VARCHAR(30) NOT NULL DEFAULT 'Pendente',
     valor_total DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
     id_cliente INT NOT NULL,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Itens de cada pedido (relacionamento N:M entre pedido e produto)
 CREATE TABLE item_pedido (
     id INT PRIMARY KEY AUTO_INCREMENT,
     id_pedido INT NOT NULL,
