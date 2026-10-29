@@ -311,3 +311,132 @@ body.bg-pizzaria {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================
+   ESTILOS EXCLUSIVOS PARA AS TELAS DE CONSULTA E TABELAS
+   ========================================== */
+   .table-card-container {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 35px 30px;
+    box-shadow: 0 14px 35px rgba(120, 53, 15, 0.15);
+    border: 3px solid #f59e0b;
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+/* Faixa tricolor característica da marca no topo do card */
+.table-card-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to right, #15803d 33%, #ffffff 33%, #ffffff 66%, #b91c1c 66%);
+}
+
+.table-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.table-header-flex h2 {
+    font-size: 24px;
+    color: #78350f;
+    font-weight: 700;
+    margin: 0;
+}
+
+.table-actions-bar {
+    margin-bottom: 25px;
+}
+
+.table-actions-bar .btn-dominos {
+    display: inline-block;
+    width: auto;
+    padding: 10px 20px;
+}
+
+/* Tabela Moderna */
+.modern-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.modern-table th {
+    background-color: #fef3c7;
+    color: #78350f;
+    font-weight: 600;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 2px solid #fcd34d;
+}
+
+.modern-table th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.modern-table th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.modern-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #fef3c7;
+    color: #374151;
+    vertical-align: middle;
+}
+
+.modern-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.modern-table tbody tr:hover {
+    background-color: #fffbeb;
+}
+
+.category-name {
+    font-weight: 600;
+    color: #78350f;
+}
+
+.category-desc {
+    color: #6b7280;
+}
+
+/* Botão de Excluir estilizado */
+.btn-action-danger {
+    display: inline-block;
+    background-color: #fee2e2;
+    color: #991b1b;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid #fecaca;
+    transition: all 0.2s ease;
+}
+
+.btn-action-danger:hover {
+    background-color: #dc2626;
+    color: #ffffff;
+    border-color: #b91c1c;
+}
+
+.empty-table-msg {
+    text-align: center;
+    padding: 30px !important;
+    color: #9ca3af;
+    font-style: italic;
+}
