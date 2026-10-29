@@ -1,3 +1,4 @@
+
 <?php
 include "conexao.php";
 
@@ -7,56 +8,132 @@ $email = isset($_POST["email"]) ? mysqli_real_escape_string($conexao, trim($_POS
 $senha = isset($_POST["senha"]) ? $_POST["senha"] : '';
 $telefone = isset($_POST["telefone"]) ? mysqli_real_escape_string($conexao, trim($_POST["telefone"])) : '';
 $endereco = isset($_POST["endereco"]) ? mysqli_real_escape_string($conexao, trim($_POST["endereco"])) : '';
-$datacad = !empty($_POST["datacad"]) ? $_POST["datacad"] : date('Y-m-d H:i:s');
+$datacad = !empty($_POST["datacad"]) ? mysqli_real_escape_string($conexao, $_POST["datacad"]) : date('Y-m-d H:i:s');
 $nivel = isset($_POST["nivel"]) ? intval($_POST["nivel"]) : 1;
 
 $mensagem = "";
 $sucesso = false;
 
-// Valida campos obrigatórios e criptografa a senha antes de salvar
+// Valida os campos obrigatórios e criptografa a senha
 if (!empty($nome) && !empty($email) && !empty($senha)) {
-    $senha_segura = password_hash($senha, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO cliente (nome, email, senha, telefone, endereco, datacad, nivel_acesso)
-            VALUES ('$nome', '$email', '$senha_segura', '$telefone', '$endereco', '$datacad', '$nivel')";
-
-    if (mysqli_query($conexao, $sql)) {
-        $sucesso = true;
-        $mensagem = "Cliente cadastrado com sucesso!";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $mensagem = "Por favor, informe um e-mail válido!";
     } else {
-        $mensagem = "Erro ao cadastrar cliente: " . mysqli_error($conexao);
+        $senha_segura = password_hash($senha, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO cliente
+                (nome, email, senha, telefone, endereco, datacad, nivel_acesso)
+                VALUES
+                ('$nome', '$email', '$senha_segura', '$telefone', '$endereco', '$datacad', '$nivel')";
+
+        if (mysqli_query($conexao, $sql)) {
+            $sucesso = true;
+            $mensagem = "Cliente cadastrado com sucesso!";
+        } else {
+            $mensagem = "Erro ao cadastrar cliente: " . mysqli_error($conexao);
+        }
     }
+
 } else {
     $mensagem = "Por favor, preencha todos os campos obrigatórios!";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Resultado do Cadastro - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado - Cadastro de Cliente</title>
+
+    <link rel="stylesheet" href="style.css?v=9.1">
+
+    <style>
+        .result-banner {
+            width: 180px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 6px 12px rgba(120, 53, 15, 0.2));
+        }
+
+        .result-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .result-buttons a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
 </head>
-<body>
+
+<body class="bg-pizzaria">
+
     <?php include 'Menu1.php'; ?>
 
-    <div class="container">
-        <h1>Status do Cadastro</h1>
+    <div class="main-wrapper" style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+        <div class="table-card-container" style="max-width: 500px; width: 100%; text-align: center; padding: 40px 30px; box-sizing: border-box;">
 
-        <?php if ($sucesso): ?>
-            <div class="alert alert-success">
-                <?= $mensagem ?>
-            </div>
-            <a href="consultar_user.php" class="btn">Visualizar Clientes Cadastrados</a>
-            <a href="form_cad_user.php" class="btn btn-secondary" style="margin-top: 10px;">Cadastrar Outro Cliente</a>
-        <?php else: ?>
-            <div class="alert alert-error">
-                <?= $mensagem ?>
-            </div>
-            <a href="form_cad_user.php" class="btn btn-secondary">Voltar ao Formulário</a>
-        <?php endif; ?>
+            <?php if ($sucesso): ?>
+
+                <img src="BannerPizzaDaChapada.png"
+                     alt="Banner Pizzaria da Chapada"
+                     class="result-banner">
+
+                <h2 style="color: #78350f; font-size: 26px; margin-bottom: 15px; font-weight: 700;">
+                    Tudo Pronto!
+                </h2>
+
+                <div style="background-color: #d1fae5; color: #065f46; border: 1.5px solid #a7f3d0; padding: 14px; border-radius: 12px; font-weight: 600; margin-bottom: 25px; font-size: 15px;">
+                    <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
+                </div>
+
+                <div class="result-buttons">
+                    <a href="consultar_user.php" class="btn-dominos btn-primary">
+                        Visualizar Clientes Cadastrados
+                    </a>
+
+                    <a href="form_cad_user.php" class="btn-dominos btn-outline">
+                        Cadastrar Outro Cliente
+                    </a>
+                </div>
+
+            <?php else: ?>
+
+                <div style="font-size: 50px; margin-bottom: 15px;">⚠️</div>
+
+                <h2 style="color: #991b1b; font-size: 26px; margin-bottom: 15px; font-weight: 700;">
+                    Atenção
+                </h2>
+
+                <div style="background-color: #fee2e2; color: #991b1b; border: 1.5px solid #fecaca; padding: 14px; border-radius: 12px; font-weight: 600; margin-bottom: 25px; font-size: 15px;">
+                    <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
+                </div>
+
+                <div class="result-buttons">
+                    <a href="form_cad_user.php" class="btn-dominos btn-primary">
+                        Voltar ao Formulário
+                    </a>
+                </div>
+
+            <?php endif; ?>
+
+        </div>
     </div>
 
     <?php include 'rodape.php'; ?>
+
 </body>
 </html>
