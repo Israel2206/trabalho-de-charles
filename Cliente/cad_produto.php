@@ -1,6 +1,7 @@
 <?php
 include "conexao.php";
 
+// Captura, sanitiza e converte formatos de preço e estoque
 $nome = isset($_POST["nome"]) ? mysqli_real_escape_string($conexao, trim($_POST["nome"])) : '';
 $preco = isset($_POST["preco"]) ? floatval(str_replace(',', '.', $_POST["preco"])) : 0;
 $estoque = isset($_POST["estoque"]) ? intval($_POST["estoque"]) : 0;
@@ -9,6 +10,7 @@ $id_categoria = isset($_POST["id_categoria"]) ? intval($_POST["id_categoria"]) :
 $mensagem = "";
 $sucesso = false;
 
+// Valida campos obrigatórios antes da inserção
 if (!empty($nome) && $preco > 0 && $id_categoria > 0) {
     $sql = "INSERT INTO produto (nome, preco, estoque, id_categoria) 
             VALUES ('$nome', '$preco', '$estoque', '$id_categoria')";

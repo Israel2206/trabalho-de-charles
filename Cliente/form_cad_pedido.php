@@ -1,7 +1,7 @@
 <?php
 include "conexao.php";
 
-// Busca clientes e produtos para os selects
+// Consulta os clientes e produtos para alimentar as opções do formulário
 $res_clientes = mysqli_query($conexao, "SELECT id, nome FROM cliente ORDER BY nome ASC");
 $res_produtos = mysqli_query($conexao, "SELECT id, nome, preco FROM produto ORDER BY nome ASC");
 ?>

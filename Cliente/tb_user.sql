@@ -1,6 +1,7 @@
 
 
 
+-- Tabela simples de usuários para autenticação básica
 USE sistema;
 
 CREATE TABLE usuarios (
@@ -9,3 +10,4 @@ CREATE TABLE usuarios (
     email VARCHAR(150) NOT NULL,
     senha VARCHAR(100) NOT NULL
 );
+

@@ -1,6 +1,7 @@
 <?php
 include "conexao.php";
 
+// Consulta os clientes ordenados do mais recente para o mais antigo
 $sql = "SELECT id, nome, email, telefone, endereco, datacad, nivel_acesso FROM cliente ORDER BY id DESC";
 $resultado = mysqli_query($conexao, $sql);
 ?>
