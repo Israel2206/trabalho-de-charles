@@ -1,3 +1,4 @@
+
 <?php
 include "conexao.php";
 
@@ -5,75 +6,226 @@ include "conexao.php";
 $id_cliente = isset($_POST["id_cliente"]) ? intval($_POST["id_cliente"]) : 0;
 $id_produto = isset($_POST["id_produto"]) ? intval($_POST["id_produto"]) : 0;
 $quantidade = isset($_POST["quantidade"]) ? intval($_POST["quantidade"]) : 1;
-$status = isset($_POST["status"]) ? mysqli_real_escape_string($conexao, trim($_POST["status"])) : 'Pendente';
-$data_pedido = !empty($_POST["data_pedido"]) ? $_POST["data_pedido"] : date('Y-m-d H:i:s');
+$status = isset($_POST["status"]) ? trim($_POST["status"]) : 'Pendente';
+$data_pedido = !empty($_POST["data_pedido"])
+    ? trim($_POST["data_pedido"])
+    : date('Y-m-d H:i:s');
 
 $mensagem = "";
 $sucesso = false;
 
-// Valida campos obrigatórios
+// Valida os campos obrigatórios
 if ($id_cliente > 0 && $id_produto > 0 && $quantidade > 0) {
-    // Busca o preço atual do produto para calcular o total
-    $busca_prod = mysqli_query($conexao, "SELECT preco FROM produto WHERE id = $id_produto");
-    if ($busca_prod && mysqli_num_rows($busca_prod) > 0) {
-        $prod = mysqli_fetch_assoc($busca_prod);
-        $preco_unitario = floatval($prod['preco']);
+
+    mysqli_begin_transaction($conexao);
+
+    try {
+        // Verifica se o cliente existe
+        $sql_cliente = "SELECT id FROM cliente WHERE id = ?";
+        $stmt_cliente = mysqli_prepare($conexao, $sql_cliente);
+        mysqli_stmt_bind_param($stmt_cliente, "i", $id_cliente);
+        mysqli_stmt_execute($stmt_cliente);
+        $res_cliente = mysqli_stmt_get_result($stmt_cliente);
+
+        if (mysqli_num_rows($res_cliente) == 0) {
+            throw new Exception("Cliente não encontrado no sistema.");
+        }
+
+        // Busca o produto e verifica o estoque
+        $sql_prod = "SELECT preco, estoque FROM produto WHERE id = ? FOR UPDATE";
+        $stmt_prod = mysqli_prepare($conexao, $sql_prod);
+        mysqli_stmt_bind_param($stmt_prod, "i", $id_produto);
+        mysqli_stmt_execute($stmt_prod);
+        $res_prod = mysqli_stmt_get_result($stmt_prod);
+
+        if (!$res_prod || mysqli_num_rows($res_prod) == 0) {
+            throw new Exception("Produto não encontrado no sistema.");
+        }
+
+        $prod = mysqli_fetch_assoc($res_prod);
+        $preco_unitario = (float) $prod['preco'];
+        $estoque_atual = (int) $prod['estoque'];
+
+        if ($estoque_atual < $quantidade) {
+            throw new Exception("Estoque insuficiente para a quantidade solicitada.");
+        }
+
+        // Calcula o valor total
         $valor_total = $preco_unitario * $quantidade;
 
-        // 1. Grava o pedido principal
-        $sql_pedido = "INSERT INTO pedido (data_pedido, status, valor_total, id_cliente) 
-                       VALUES ('$data_pedido', '$status', '$valor_total', '$id_cliente')";
+        // Cadastra o pedido
+        $sql_pedido = "INSERT INTO pedido
+            (data_pedido, status, valor_total, id_cliente)
+            VALUES (?, ?, ?, ?)";
 
-        if (mysqli_query($conexao, $sql_pedido)) {
-            $id_pedido = mysqli_insert_id($conexao);
+        $stmt_pedido = mysqli_prepare($conexao, $sql_pedido);
+        mysqli_stmt_bind_param(
+            $stmt_pedido,
+            "ssdi",
+            $data_pedido,
+            $status,
+            $valor_total,
+            $id_cliente
+        );
 
-            // 2. Grava o item associado ao pedido
-            $sql_item = "INSERT INTO item_pedido (id_pedido, id_produto, quantidade, preco_unitario) 
-                         VALUES ('$id_pedido', '$id_produto', '$quantidade', '$preco_unitario')";
-            mysqli_query($conexao, $sql_item);
-
-            // 3. Atualiza o estoque do produto (evitando valores negativos)
-            mysqli_query($conexao, "UPDATE produto SET estoque = GREATEST(0, estoque - $quantidade) WHERE id = $id_produto");
-
-            $sucesso = true;
-            $mensagem = "Pedido #$id_pedido cadastrado com sucesso! Valor total: R$ " . number_format($valor_total, 2, ',', '.');
-        } else {
-            $mensagem = "Erro ao cadastrar pedido: " . mysqli_error($conexao);
+        if (!mysqli_stmt_execute($stmt_pedido)) {
+            throw new Exception("Erro ao cadastrar pedido.");
         }
-    } else {
-        $mensagem = "Produto não encontrado no sistema.";
+
+        $id_pedido = mysqli_insert_id($conexao);
+
+        // Cadastra o item do pedido
+        $sql_item = "INSERT INTO item_pedido
+            (id_pedido, id_produto, quantidade, preco_unitario)
+            VALUES (?, ?, ?, ?)";
+
+        $stmt_item = mysqli_prepare($conexao, $sql_item);
+        mysqli_stmt_bind_param(
+            $stmt_item,
+            "iiid",
+            $id_pedido,
+            $id_produto,
+            $quantidade,
+            $preco_unitario
+        );
+
+        if (!mysqli_stmt_execute($stmt_item)) {
+            throw new Exception("Erro ao cadastrar o item do pedido.");
+        }
+
+        // Atualiza o estoque
+        $sql_estoque = "UPDATE produto
+                        SET estoque = estoque - ?
+                        WHERE id = ? AND estoque >= ?";
+
+        $stmt_estoque = mysqli_prepare($conexao, $sql_estoque);
+        mysqli_stmt_bind_param(
+            $stmt_estoque,
+            "iii",
+            $quantidade,
+            $id_produto,
+            $quantidade
+        );
+
+        if (!mysqli_stmt_execute($stmt_estoque) ||
+            mysqli_stmt_affected_rows($stmt_estoque) != 1) {
+            throw new Exception("Não foi possível atualizar o estoque.");
+        }
+
+        // Confirma todas as operações
+        mysqli_commit($conexao);
+
+        $sucesso = true;
+        $mensagem = "Pedido #$id_pedido cadastrado com sucesso! Valor total: R$ "
+            . number_format($valor_total, 2, ',', '.');
+
+    } catch (Throwable $e) {
+        mysqli_rollback($conexao);
+
+        $mensagem = $e instanceof mysqli_sql_exception
+            ? "Ocorreu um erro ao processar o pedido. Verifique os dados e tente novamente."
+            : $e->getMessage();
     }
+
 } else {
-    $mensagem = "Por favor, selecione o cliente, produto e quantidade válida.";
+    $mensagem = "Por favor, selecione o cliente, o produto e uma quantidade válida.";
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultado - Cadastro de Pedido</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="style.css?v=9.1">
+
+    <style>
+        .result-banner {
+            width: 180px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 6px 12px rgba(120, 53, 15, 0.2));
+        }
+
+        .result-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .result-buttons a {
+            display: block;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            border-radius: 25px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
 </head>
-<body>
+
+<body class="bg-pizzaria">
+
     <?php include 'Menu1.php'; ?>
 
-    <div class="container">
-        <h1>Status do Pedido</h1>
+    <div class="main-wrapper" style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+        <div class="table-card-container" style="max-width: 500px; width: 100%; text-align: center; padding: 40px 30px; box-sizing: border-box;">
 
-        <?php if ($sucesso): ?>
-            <div class="alert alert-success">
-                <?= $mensagem ?>
-            </div>
-            <a href="consultar_pedido.php" class="btn">Visualizar Todos os Pedidos</a>
-            <a href="form_cad_pedido.php" class="btn btn-secondary" style="margin-top: 10px;">Cadastrar Novo Pedido</a>
-        <?php else: ?>
-            <div class="alert alert-error">
-                <?= $mensagem ?>
-            </div>
-            <a href="form_cad_pedido.php" class="btn btn-secondary">Voltar ao Formulário</a>
-        <?php endif; ?>
+            <?php if ($sucesso): ?>
+
+                <img src="BannerPizzaDaChapada.png"
+                     alt="Banner Pizzaria da Chapada"
+                     class="result-banner">
+
+                <h2 style="color: #78350f; font-size: 26px; margin-bottom: 15px; font-weight: 700;">
+                    Tudo Pronto!
+                </h2>
+
+                <div style="background-color: #d1fae5; color: #065f46; border: 1.5px solid #a7f3d0; padding: 14px; border-radius: 12px; font-weight: 600; margin-bottom: 25px; font-size: 15px;">
+                    <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
+                </div>
+
+                <div class="result-buttons">
+                    <a href="consultar_pedido.php" class="btn-dominos btn-primary">
+                        Visualizar Todos os Pedidos
+                    </a>
+
+                    <a href="form_cad_pedido.php" class="btn-dominos btn-outline">
+                        Cadastrar Novo Pedido
+                    </a>
+                </div>
+
+            <?php else: ?>
+
+                <div style="font-size: 50px; margin-bottom: 15px;">⚠️</div>
+
+                <h2 style="color: #991b1b; font-size: 26px; margin-bottom: 15px; font-weight: 700;">
+                    Atenção
+                </h2>
+
+                <div style="background-color: #fee2e2; color: #991b1b; border: 1.5px solid #fecaca; padding: 14px; border-radius: 12px; font-weight: 600; margin-bottom: 25px; font-size: 15px;">
+                    <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
+                </div>
+
+                <div class="result-buttons">
+                    <a href="form_cad_pedido.php" class="btn-dominos btn-primary">
+                        Voltar ao Formulário
+                    </a>
+                </div>
+
+            <?php endif; ?>
+
+        </div>
     </div>
 
     <?php include 'rodape.php'; ?>
+
 </body>
 </html>
