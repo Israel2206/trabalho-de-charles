@@ -1,12 +1,14 @@
 <?php
 include "conexao.php";
 
+// Captura e sanitiza os dados da nova categoria
 $nome = isset($_POST["nome"]) ? mysqli_real_escape_string($conexao, trim($_POST["nome"])) : '';
 $descricao = isset($_POST["descricao"]) ? mysqli_real_escape_string($conexao, trim($_POST["descricao"])) : '';
 
 $mensagem = "";
 $sucesso = false;
 
+// Valida o preenchimento do nome obrigatório antes do INSERT
 if (!empty($nome)) {
     $sql = "INSERT INTO categoria (nome, descricao) VALUES ('$nome', '$descricao')";
 

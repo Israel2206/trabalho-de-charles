@@ -1,6 +1,7 @@
 <?php
 include "conexao.php";
 
+// Consulta todas as categorias cadastradas em ordem decrescente de cadastro
 $sql = "SELECT id, nome, descricao FROM categoria ORDER BY id DESC";
 $resultado = mysqli_query($conexao, $sql);
 ?>

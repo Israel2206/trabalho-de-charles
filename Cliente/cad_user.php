@@ -1,6 +1,7 @@
 <?php
 include "conexao.php";
 
+// Captura e sanitiza as informações de cadastro do cliente
 $nome = isset($_POST["nome"]) ? mysqli_real_escape_string($conexao, trim($_POST["nome"])) : '';
 $email = isset($_POST["email"]) ? mysqli_real_escape_string($conexao, trim($_POST["email"])) : '';
 $senha = isset($_POST["senha"]) ? $_POST["senha"] : '';
@@ -12,6 +13,7 @@ $nivel = isset($_POST["nivel"]) ? intval($_POST["nivel"]) : 1;
 $mensagem = "";
 $sucesso = false;
 
+// Valida campos obrigatórios e criptografa a senha antes de salvar
 if (!empty($nome) && !empty($email) && !empty($senha)) {
     $senha_segura = password_hash($senha, PASSWORD_DEFAULT);
 

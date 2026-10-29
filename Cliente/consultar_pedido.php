@@ -1,6 +1,7 @@
 <?php
 include "conexao.php";
 
+// Busca os pedidos com junção (JOIN) de cliente, item_pedido e produto
 $sql = "SELECT p.id, p.data_pedido, p.status, p.valor_total, c.nome AS cliente_nome,
                pr.nome AS produto_nome, ip.quantidade, ip.preco_unitario
         FROM pedido p

@@ -1,6 +1,7 @@
 <?php
 include "conexao.php";
 
+// Recebe e sanitiza os dados do formulário de pedidos
 $id_cliente = isset($_POST["id_cliente"]) ? intval($_POST["id_cliente"]) : 0;
 $id_produto = isset($_POST["id_produto"]) ? intval($_POST["id_produto"]) : 0;
 $quantidade = isset($_POST["quantidade"]) ? intval($_POST["quantidade"]) : 1;
@@ -10,27 +11,28 @@ $data_pedido = !empty($_POST["data_pedido"]) ? $_POST["data_pedido"] : date('Y-m
 $mensagem = "";
 $sucesso = false;
 
+// Valida campos obrigatórios
 if ($id_cliente > 0 && $id_produto > 0 && $quantidade > 0) {
-    // Busca o preço unitário do produto cadastrado
+    // Busca o preço atual do produto para calcular o total
     $busca_prod = mysqli_query($conexao, "SELECT preco FROM produto WHERE id = $id_produto");
     if ($busca_prod && mysqli_num_rows($busca_prod) > 0) {
         $prod = mysqli_fetch_assoc($busca_prod);
         $preco_unitario = floatval($prod['preco']);
         $valor_total = $preco_unitario * $quantidade;
 
-        // Inserir na tabela pedido
+        // 1. Grava o pedido principal
         $sql_pedido = "INSERT INTO pedido (data_pedido, status, valor_total, id_cliente) 
                        VALUES ('$data_pedido', '$status', '$valor_total', '$id_cliente')";
 
         if (mysqli_query($conexao, $sql_pedido)) {
             $id_pedido = mysqli_insert_id($conexao);
 
-            // Inserir na tabela item_pedido
+            // 2. Grava o item associado ao pedido
             $sql_item = "INSERT INTO item_pedido (id_pedido, id_produto, quantidade, preco_unitario) 
                          VALUES ('$id_pedido', '$id_produto', '$quantidade', '$preco_unitario')";
             mysqli_query($conexao, $sql_item);
 
-            // Atualiza o estoque do produto
+            // 3. Atualiza o estoque do produto (evitando valores negativos)
             mysqli_query($conexao, "UPDATE produto SET estoque = GREATEST(0, estoque - $quantidade) WHERE id = $id_produto");
 
             $sucesso = true;

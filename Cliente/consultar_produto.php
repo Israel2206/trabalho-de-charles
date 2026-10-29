@@ -1,6 +1,7 @@
 <?php
 include "conexao.php";
 
+// Consulta os produtos trazendo o nome da categoria associada via LEFT JOIN
 $sql = "SELECT p.id, p.nome, p.preco, p.estoque, c.nome AS categoria_nome 
         FROM produto p 
         LEFT JOIN categoria c ON p.id_categoria = c.id 
