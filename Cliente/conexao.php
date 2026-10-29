@@ -8,7 +8,7 @@ $banco = "pizzaria_chapada";
 // Tenta conectar ao banco pizzaria_chapada; se não existir, tenta Breno3182i
 $conexao = @mysqli_connect($servidor, $usuario, $senha, $banco);
 if (!$conexao) {
-    $banco = "Breno3182i";
+    $banco = "pizzaria_chapada";
     $conexao = @mysqli_connect($servidor, $usuario, $senha, $banco);
 }
 
