@@ -1,8 +1,8 @@
 <?php
 
 $servidor = "localhost";
-$usuario = "breno";
-$senha = "Breno.2008";
+$usuario = "root";
+$senha = "";
 $banco = "pizzaria_chapada";
 
 // Tenta conectar ao banco pizzaria_chapada; se não existir, tenta Breno3182i
