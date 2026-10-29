@@ -86,10 +86,8 @@ if ($q_ped) { $total_pedidos = mysqli_fetch_assoc($q_ped)['total']; }
         </div>
 
         <div class="dica-card">
-            <h4>💡 Dica de Utilização:</h4>
-            <p>1. Comece cadastrando <strong>Clientes</strong> e <strong>Categorias</strong>.</p>
-            <p>2. Depois cadastre os <strong>Produtos</strong> vinculando à categoria desejada.</p>
-            <p>3. Por fim, realize novos <strong>Pedidos</strong> selecionando o cliente e o produto!</p>
+            <h4>Bem-Vindo!!!</h4>
+            <p>Cadastre as coisa ai!</p>
         </div>
     </div>
 
