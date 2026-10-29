@@ -95,7 +95,7 @@ $total_clientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
 
                 <div class="title-with-logo">
                     <img
-                        src="Clientes.png"
+                        src="LogoClientes.png"
                         alt="Logo Clientes"
                         class="section-logo"
                     >
