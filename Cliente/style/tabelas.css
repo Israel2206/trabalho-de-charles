@@ -123,24 +123,12 @@
     width: 70px;
 }
 
-.col-id-wide {
-    width: 80px;
-}
-
-.col-nome {
-    width: 250px;
-}
-
 .col-qtd {
     width: 70px;
 }
 
 .col-acoes {
     width: 120px;
-    text-align: center;
-}
-
-.cell-center {
     text-align: center;
 }
 

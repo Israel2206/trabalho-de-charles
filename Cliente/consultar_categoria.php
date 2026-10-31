@@ -40,8 +40,8 @@ $total_cat = ($resultado) ? mysqli_num_rows($resultado) : 0;
                 <table class="modern-table">
                     <thead>
                         <tr>
-                            <th class="col-id-wide">ID</th>
-                            <th class="col-nome">Nome</th>
+                            <th class="col-id">ID</th>
+                            <th>Nome</th>
                             <th>Descrição</th>
                             <th class="col-acoes">Ações</th>
                         </tr>
@@ -53,7 +53,7 @@ $total_cat = ($resultado) ? mysqli_num_rows($resultado) : 0;
                                     <td><strong>#<?= $linha['id'] ?></strong></td>
                                     <td><span class="category-name"><?= htmlspecialchars($linha['nome']) ?></span></td>
                                     <td><span class="category-desc"><?= htmlspecialchars($linha['descricao'] ?: 'Sem descrição') ?></span></td>
-                                    <td class="cell-center">
+                                    <td class="cell-actions">
                                         <a href="editar.php?tabela=categoria&id=<?= $linha['id'] ?>" class="btn-action-edit">Editar</a>
                                         <a href="excluir.php?tabela=categoria&id=<?= $linha['id'] ?>" class="btn-action-danger" onclick="return confirm('Deseja realmente excluir esta categoria?');">Excluir</a>
                                     </td>
