@@ -1,7 +1,7 @@
 -- =======================================================
 -- Banco de Dados Oficial: pizzaria_chapada
 -- Arquivo de persistência física permanente: BD.sql
--- Última sincronização: 2026-10-31 00:01:22
+-- Última sincronização: 2026-10-31 00:02:53
 -- =======================================================
 
 CREATE DATABASE IF NOT EXISTS pizzaria_chapada;
@@ -70,11 +70,13 @@ INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `
 
 -- Dados persistidos na tabela `produto`
 INSERT INTO `produto` (`id`, `nome`, `preco`, `estoque`, `id_categoria`) VALUES ('1', 'Pizza Calabresa', '45.50', '8', '1') ON DUPLICATE KEY UPDATE id=id;
-INSERT INTO `produto` (`id`, `nome`, `preco`, `estoque`, `id_categoria`) VALUES ('2', 'Pizza Quatro Queijos', '49.90', '15', '1') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `produto` (`id`, `nome`, `preco`, `estoque`, `id_categoria`) VALUES ('2', 'Pizza Quatro Queijos', '49.90', '14', '1') ON DUPLICATE KEY UPDATE id=id;
 
 -- Dados persistidos na tabela `pedido`
 INSERT INTO `pedido` (`id`, `data_pedido`, `status`, `valor_total`, `id_cliente`) VALUES ('1', '2026-10-30 23:18:23', 'Pendente', '91.00', '1') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `pedido` (`id`, `data_pedido`, `status`, `valor_total`, `id_cliente`) VALUES ('2', '2026-10-31 00:00:00', 'Em preparo', '49.90', '7') ON DUPLICATE KEY UPDATE id=id;
 
 -- Dados persistidos na tabela `item_pedido`
 INSERT INTO `item_pedido` (`id`, `id_pedido`, `id_produto`, `quantidade`, `preco_unitario`) VALUES ('1', '1', '1', '2', '45.50') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `item_pedido` (`id`, `id_pedido`, `id_produto`, `quantidade`, `preco_unitario`) VALUES ('2', '2', '2', '1', '49.90') ON DUPLICATE KEY UPDATE id=id;
 
