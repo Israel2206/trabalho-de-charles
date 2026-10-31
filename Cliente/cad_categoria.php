@@ -1,22 +1,27 @@
 <?php
 include "conexao.php";
 
-// Captura e sanitiza os dados da nova categoria
-$nome = isset($_POST["nome"]) ? mysqli_real_escape_string($conexao, trim($_POST["nome"])) : '';
-$descricao = isset($_POST["descricao"]) ? mysqli_real_escape_string($conexao, trim($_POST["descricao"])) : '';
+// Captura os dados da nova categoria
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : '';
+$descricao = isset($_POST["descricao"]) ? trim($_POST["descricao"]) : '';
 
 $mensagem = "";
 $sucesso = false;
 
 // Valida o preenchimento do nome obrigatório antes do INSERT
 if (!empty($nome)) {
-    $sql = "INSERT INTO categoria (nome, descricao) VALUES ('$nome', '$descricao')";
+    try {
+        $stmt = mysqli_prepare($conexao, "INSERT INTO categoria (nome, descricao) VALUES (?, ?)");
+        mysqli_stmt_bind_param($stmt, "ss", $nome, $descricao);
 
-    if (mysqli_query($conexao, $sql)) {
-        $sucesso = true;
-        $mensagem = "Categoria cadastrada com sucesso!";
-    } else {
-        $mensagem = "Erro ao cadastrar categoria: " . mysqli_error($conexao);
+        if (mysqli_stmt_execute($stmt)) {
+            $sucesso = true;
+            $mensagem = "Categoria salva com sucesso no banco de dados!";
+        } else {
+            $mensagem = "Erro ao cadastrar categoria: " . mysqli_error($conexao);
+        }
+    } catch (Throwable $e) {
+        $mensagem = "Erro ao salvar no banco: " . $e->getMessage();
     }
 } else {
     $mensagem = "O nome da categoria é obrigatório!";

@@ -1,40 +1,59 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<?php include 'Menu1.php'   ?>
 <head>
-
     <meta charset="UTF-8">
-
-    <title>Cadastro de Cliente</title>
-
-    <link rel="stylesheet" href="style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Rápido de Cliente - Pizzaria da Chapada</title>
+    <link rel="stylesheet" href="style.css?v=4.5">
 </head>
+<body class="bg-pizzaria">
+    <?php include 'Menu1.php'; ?>
 
-<body>
+    <div class="split-container">
+        <!-- LADO ESQUERDO: Arte e Mensagem de Destaque -->
+        <div class="split-art">
+            <div class="art-text">
+                <h2>Cadastro de Clientes</h2>
+                <p>Cadastre os dados de entrega para agilizar os pedidos da pizzaria!</p>
+            </div>
+            <img src="Pizzaria-da-ChapadaLogin.png" alt="Pizzaria da Chapada Logo" class="art-image">
+        </div>
 
-    <div class="container">
+        <!-- LADO DIREITO: Card do Formulário Moderno -->
+        <div class="split-form-card">
+            <h2>Cadastrar Cliente</h2>
 
-        <h1>Cadastro de Cliente</h1>
+            <form action="cad_cliente.php" method="POST" class="modern-form">
+                <div class="form-group">
+                    <label>Nome Completo *</label>
+                    <input type="text" name="nome" placeholder="Nome do cliente" required>
+                </div>
 
-        <form action="cad_cliente.php" method="POST">
-            <label>Nome</label>
-            <input type="text" name="nome" required >
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Telefone / WhatsApp *</label>
+                        <input type="text" name="telefone" placeholder="(75) 99999-9999" required>
+                    </div>
 
-            <label>telefone</label>
-            <input  type="number"  name="telefone"   required >
+                    <div class="form-group">
+                        <label>E-mail (opcional)</label>
+                        <input type="email" name="email" placeholder="cliente@email.com">
+                    </div>
+                </div>
 
-            <label>endereco</label>
-            <input  type="text"  name="endereco"   required  >
+                <div class="form-group">
+                    <label>Endereço de Entrega *</label>
+                    <input type="text" name="endereco" placeholder="Rua, número, ponto de referência" required>
+                </div>
 
-            <button type="submit"> Cadastrar Cliente </button>
-        </form>
-
+                <div class="form-buttons" style="margin-top: 15px;">
+                    <button type="submit" class="btn-dominos btn-primary btn-full">Salvar no Banco de Dados</button>
+                    <a href="consultar_user.php" class="btn-dominos btn-outline btn-full" style="display: block; text-align: center; box-sizing: border-box;">Ver Tabela de Clientes</a>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <?php include 'rodape.php'; ?>
 </body>
-
-  <?php include 'rodape.php'   ?>
-
 </html>

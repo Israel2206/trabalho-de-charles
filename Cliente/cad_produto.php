@@ -1,8 +1,8 @@
 <?php
 include "conexao.php";
 
-// Captura, sanitiza e converte formatos de preço e estoque
-$nome = isset($_POST["nome"]) ? mysqli_real_escape_string($conexao, trim($_POST["nome"])) : '';
+// Captura e converte formatos de preço e estoque
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : '';
 $preco = isset($_POST["preco"]) ? floatval(str_replace(',', '.', $_POST["preco"])) : 0;
 $estoque = isset($_POST["estoque"]) ? intval($_POST["estoque"]) : 0;
 $id_categoria = isset($_POST["id_categoria"]) ? intval($_POST["id_categoria"]) : 0;
@@ -12,14 +12,18 @@ $sucesso = false;
 
 // Valida campos obrigatórios antes da inserção
 if (!empty($nome) && $preco > 0 && $id_categoria > 0) {
-    $sql = "INSERT INTO produto (nome, preco, estoque, id_categoria) 
-            VALUES ('$nome', '$preco', '$estoque', '$id_categoria')";
+    try {
+        $stmt = mysqli_prepare($conexao, "INSERT INTO produto (nome, preco, estoque, id_categoria) VALUES (?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt, "sdii", $nome, $preco, $estoque, $id_categoria);
 
-    if (mysqli_query($conexao, $sql)) {
-        $sucesso = true;
-        $mensagem = "Produto cadastrado com sucesso!";
-    } else {
-        $mensagem = "Erro ao cadastrar produto: " . mysqli_error($conexao);
+        if (mysqli_stmt_execute($stmt)) {
+            $sucesso = true;
+            $mensagem = "Produto salvo com sucesso no banco de dados!";
+        } else {
+            $mensagem = "Erro ao cadastrar produto: " . mysqli_error($conexao);
+        }
+    } catch (Throwable $e) {
+        $mensagem = "Erro ao salvar no banco: " . $e->getMessage();
     }
 } else {
     $mensagem = "Preencha todos os campos obrigatórios corretamente!";

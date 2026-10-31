@@ -3,11 +3,11 @@ CREATE DATABASE IF NOT EXISTS pizzaria_chapada;
 USE pizzaria_chapada;
 
 -- Tabela de clientes e usuários (autenticação e dados para entrega)
-CREATE TABLE cliente (
+CREATE TABLE IF NOT EXISTS cliente (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    senha VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE DEFAULT NULL,
+    senha VARCHAR(255) DEFAULT NULL,
     telefone VARCHAR(20),
     endereco VARCHAR(255),
     datacad DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -17,7 +17,7 @@ CREATE TABLE cliente (
 -- 1: Cliente comum, 2: Administrador
 
 -- Categorias para organização do cardápio (ex: Salgadas, Doces, Bebidas)
-CREATE TABLE categoria (
+CREATE TABLE IF NOT EXISTS categoria (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
     descricao TEXT

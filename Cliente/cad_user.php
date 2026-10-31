@@ -1,42 +1,53 @@
-
 <?php
 include "conexao.php";
 
 // Captura e sanitiza as informações de cadastro do cliente
-$nome = isset($_POST["nome"]) ? mysqli_real_escape_string($conexao, trim($_POST["nome"])) : '';
-$email = isset($_POST["email"]) ? mysqli_real_escape_string($conexao, trim($_POST["email"])) : '';
+$nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : '';
+$email = isset($_POST["email"]) ? trim($_POST["email"]) : '';
 $senha = isset($_POST["senha"]) ? $_POST["senha"] : '';
-$telefone = isset($_POST["telefone"]) ? mysqli_real_escape_string($conexao, trim($_POST["telefone"])) : '';
-$endereco = isset($_POST["endereco"]) ? mysqli_real_escape_string($conexao, trim($_POST["endereco"])) : '';
-$datacad = !empty($_POST["datacad"]) ? mysqli_real_escape_string($conexao, $_POST["datacad"]) : date('Y-m-d H:i:s');
+$telefone = isset($_POST["telefone"]) ? trim($_POST["telefone"]) : '';
+$endereco = isset($_POST["endereco"]) ? trim($_POST["endereco"]) : '';
+$datacad = !empty($_POST["datacad"]) ? trim($_POST["datacad"]) : date('Y-m-d H:i:s');
 $nivel = isset($_POST["nivel"]) ? intval($_POST["nivel"]) : 1;
 
 $mensagem = "";
 $sucesso = false;
 
-// Valida os campos obrigatórios e criptografa a senha
+// Valida os campos obrigatórios
 if (!empty($nome) && !empty($email) && !empty($senha)) {
-
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $mensagem = "Por favor, informe um e-mail válido!";
     } else {
-        $senha_segura = password_hash($senha, PASSWORD_DEFAULT);
+        try {
+            // Verifica se o e-mail já existe para não falhar
+            $stmt_check = mysqli_prepare($conexao, "SELECT id FROM cliente WHERE email = ?");
+            mysqli_stmt_bind_param($stmt_check, "s", $email);
+            mysqli_stmt_execute($stmt_check);
+            $res_check = mysqli_stmt_get_result($stmt_check);
 
-        $sql = "INSERT INTO cliente
-                (nome, email, senha, telefone, endereco, datacad, nivel_acesso)
-                VALUES
-                ('$nome', '$email', '$senha_segura', '$telefone', '$endereco', '$datacad', '$nivel')";
+            if ($res_check && mysqli_num_rows($res_check) > 0) {
+                $mensagem = "Este e-mail já está cadastrado para outro cliente!";
+            } else {
+                $senha_segura = password_hash($senha, PASSWORD_DEFAULT);
 
-        if (mysqli_query($conexao, $sql)) {
-            $sucesso = true;
-            $mensagem = "Cliente cadastrado com sucesso!";
-        } else {
-            $mensagem = "Erro ao cadastrar cliente: " . mysqli_error($conexao);
+                $sql = "INSERT INTO cliente (nome, email, senha, telefone, endereco, datacad, nivel_acesso)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $stmt = mysqli_prepare($conexao, $sql);
+                mysqli_stmt_bind_param($stmt, "ssssssi", $nome, $email, $senha_segura, $telefone, $endereco, $datacad, $nivel);
+
+                if (mysqli_stmt_execute($stmt)) {
+                    $sucesso = true;
+                    $mensagem = "Cliente cadastrado com sucesso no banco de dados!";
+                } else {
+                    $mensagem = "Erro ao cadastrar cliente: " . mysqli_error($conexao);
+                }
+            }
+        } catch (Throwable $e) {
+            $mensagem = "Erro ao salvar no banco: " . $e->getMessage();
         }
     }
-
 } else {
-    $mensagem = "Por favor, preencha todos os campos obrigatórios!";
+    $mensagem = "Por favor, preencha todos os campos obrigatórios (Nome, E-mail e Senha)!";
 }
 ?>
 
