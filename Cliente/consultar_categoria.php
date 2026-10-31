@@ -67,6 +67,7 @@ $total_cat = ($resultado) ? mysqli_num_rows($resultado) : 0;
                                     <td><span class="category-name"><?= htmlspecialchars($linha['nome']) ?></span></td>
                                     <td><span class="category-desc"><?= htmlspecialchars($linha['descricao'] ?: 'Sem descrição') ?></span></td>
                                     <td style="text-align: center;">
+                                        <a href="editar.php?tabela=categoria&id=<?= $linha['id'] ?>" class="btn-action-edit">Editar</a>
                                         <a href="excluir.php?tabela=categoria&id=<?= $linha['id'] ?>" class="btn-action-danger" onclick="return confirm('Deseja realmente excluir esta categoria?');">Excluir</a>
                                     </td>
                                 </tr>

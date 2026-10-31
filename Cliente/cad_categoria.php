@@ -17,6 +17,7 @@ if (!empty($nome)) {
         if (mysqli_stmt_execute($stmt)) {
             $sucesso = true;
             $mensagem = "Categoria salva com sucesso no banco de dados!";
+            sincronizar_bd_sql($conexao);
         } else {
             $mensagem = "Erro ao cadastrar categoria: " . mysqli_error($conexao);
         }

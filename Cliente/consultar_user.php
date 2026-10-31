@@ -282,7 +282,8 @@ $total_clientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
                                     </td>
 
                                     <!-- Ações -->
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center; white-space: nowrap;">
+                                        <a href="editar.php?tabela=cliente&id=<?= (int) $linha['id'] ?>" class="btn-action-edit">Editar</a>
                                         <a
                                             href="excluir.php?tabela=cliente&id=<?= (int) $linha['id'] ?>"
                                             class="btn-action-danger"

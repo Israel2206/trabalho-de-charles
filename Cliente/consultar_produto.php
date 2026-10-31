@@ -83,7 +83,8 @@ $total_prod = ($resultado) ? mysqli_num_rows($resultado) : 0;
                                             <span style="color: #dc2626; font-weight: 600;">Esgotado</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center; white-space: nowrap;">
+                                        <a href="editar.php?tabela=produto&id=<?= $linha['id'] ?>" class="btn-action-edit">Editar</a>
                                         <a href="excluir.php?tabela=produto&id=<?= $linha['id'] ?>" class="btn-action-danger" onclick="return confirm('Deseja realmente excluir este produto?');">Excluir</a>
                                     </td>
                                 </tr>

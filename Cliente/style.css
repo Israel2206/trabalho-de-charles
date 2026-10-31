@@ -414,6 +414,27 @@ body.bg-pizzaria {
     color: #6b7280;
 }
 
+/* Botão de Editar estilizado */
+.btn-action-edit {
+    display: inline-block;
+    background-color: #fef3c7;
+    color: #92400e;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid #fde68a;
+    transition: all 0.2s ease;
+    margin-right: 6px;
+}
+
+.btn-action-edit:hover {
+    background-color: #f59e0b;
+    color: #ffffff;
+    border-color: #d97706;
+}
+
 /* Botão de Excluir estilizado */
 .btn-action-danger {
     display: inline-block;

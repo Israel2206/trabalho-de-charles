@@ -18,6 +18,9 @@ if (array_key_exists($tabela, $tabelas_permitidas) && $id > 0) {
     $sql = "DELETE FROM `$tabela` WHERE id = $id";
     mysqli_query($conexao, $sql);
 
+    // Sincroniza a exclusão diretamente no BD.sql
+    sincronizar_bd_sql($conexao);
+
     // Retorna para a listagem correspondente
     header("Location: " . $tabelas_permitidas[$tabela]);
     exit;

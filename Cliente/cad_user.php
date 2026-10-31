@@ -38,6 +38,7 @@ if (!empty($nome) && !empty($email) && !empty($senha)) {
                 if (mysqli_stmt_execute($stmt)) {
                     $sucesso = true;
                     $mensagem = "Cliente cadastrado com sucesso no banco de dados!";
+                    sincronizar_bd_sql($conexao);
                 } else {
                     $mensagem = "Erro ao cadastrar cliente: " . mysqli_error($conexao);
                 }

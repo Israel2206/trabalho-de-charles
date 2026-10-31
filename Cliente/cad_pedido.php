@@ -115,6 +115,9 @@ if ($id_cliente > 0 && $id_produto > 0 && $quantidade > 0) {
         // Confirma todas as operações
         mysqli_commit($conexao);
 
+        // Persiste as alterações no BD.sql
+        sincronizar_bd_sql($conexao);
+
         $sucesso = true;
         $mensagem = "Pedido #$id_pedido cadastrado com sucesso! Valor total: R$ "
             . number_format($valor_total, 2, ',', '.');

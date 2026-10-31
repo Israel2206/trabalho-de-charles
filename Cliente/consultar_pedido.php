@@ -249,7 +249,8 @@ if ($filtro === 'media') {
                                             <?= htmlspecialchars($status) ?>
                                         </span>
                                     </td>
-                                    <td style="text-align: center;">
+                                    <td style="text-align: center; white-space: nowrap;">
+                                        <a href="editar.php?tabela=pedido&id=<?= (int)$linha['id'] ?>" class="btn-action-edit">Editar</a>
                                         <a href="excluir.php?tabela=pedido&id=<?= (int)$linha['id'] ?>" class="btn-action-danger" onclick="return confirm('Deseja realmente cancelar/excluir este pedido?');">Excluir</a>
                                     </td>
                                 </tr>

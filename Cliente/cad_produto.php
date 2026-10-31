@@ -19,6 +19,7 @@ if (!empty($nome) && $preco > 0 && $id_categoria > 0) {
         if (mysqli_stmt_execute($stmt)) {
             $sucesso = true;
             $mensagem = "Produto salvo com sucesso no banco de dados!";
+            sincronizar_bd_sql($conexao);
         } else {
             $mensagem = "Erro ao cadastrar produto: " . mysqli_error($conexao);
         }
