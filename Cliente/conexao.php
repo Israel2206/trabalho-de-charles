@@ -1,14 +1,14 @@
 <?php
 
 $servidor = "localhost";
-$usuario = "root";
-$senha = "";
+$usuario = "breno";
+$senha = "Breno.2008";
 $banco = "pizzaria_chapada";
 
 // Tenta conectar ao banco pizzaria_chapada; se não existir, tenta Breno3182i
 $conexao = @mysqli_connect($servidor, $usuario, $senha, $banco);
 if (!$conexao) {
-    $banco = "pizzaria_chapada";
+    $banco = "Breno3182i";
     $conexao = @mysqli_connect($servidor, $usuario, $senha, $banco);
 }
 
