@@ -24,7 +24,11 @@ if ($q_ped) { $total_pedidos = mysqli_fetch_assoc($q_ped)['total']; }
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css?v=4.0">
+    <link rel="stylesheet" href="style/base.css?v=10.0">
+    <link rel="stylesheet" href="style/menu.css?v=10.0">
+    <link rel="stylesheet" href="style/rodape.css?v=10.0">
+    <link rel="stylesheet" href="style/componentes.css?v=10.0">
+    <link rel="stylesheet" href="style/index.css?v=10.0">
 </head>
 <body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>

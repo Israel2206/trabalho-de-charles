@@ -35,102 +35,13 @@ $total_clientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
 
     <title>Tabela de Clientes - Pizzaria da Chapada</title>
 
-    <link rel="stylesheet" href="style.css?v=7.2">
+    <link rel="stylesheet" href="style/base.css?v=10.0">
+    <link rel="stylesheet" href="style/menu.css?v=10.0">
+    <link rel="stylesheet" href="style/rodape.css?v=10.0">
+    <link rel="stylesheet" href="style/componentes.css?v=10.0">
+    <link rel="stylesheet" href="style/tabelas.css?v=10.0">
+    <link rel="stylesheet" href="style/consultas.css?v=10.0">
 
-    <style>
-        /* Cabeçalho com logo */
-        .title-with-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .section-logo {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            border-radius: 50%;
-            background: #fff;
-            padding: 3px;
-            border: 2.5px solid #fcd34d;
-            box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
-        }
-
-        /* Identificação do nível de acesso */
-        .access-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .access-admin {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fecaca;
-        }
-
-        .access-client {
-            background-color: #e0f2fe;
-            color: #075985;
-            border: 1px solid #bae6fd;
-        }
-
-        /* Evita que os dados longos quebrem o layout */
-        .client-email,
-        .client-address {
-            overflow-wrap: anywhere;
-        }
-
-        .client-phone {
-            white-space: nowrap;
-        }
-
-        /* Botões de Filtro em Pílula */
-        .filter-pills {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .btn-pill {
-            background-color: #f3f4f6;
-            color: #4b5563;
-            border: 1px solid #d1d5db;
-            padding: 8px 18px;
-            border-radius: 25px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .btn-pill:hover {
-            background-color: #e5e7eb;
-            color: #1f2937;
-        }
-
-        .btn-pill.active {
-            background-color: #d97706; /* Tom dourado/laranja da marca */
-            color: #ffffff;
-            border-color: #b45309;
-            box-shadow: 0 4px 8px rgba(217, 119, 6, 0.25);
-        }
-
-        @media (max-width: 768px) {
-            .title-with-logo {
-                gap: 10px;
-            }
-
-            .section-logo {
-                width: 55px;
-                height: 55px;
-            }
-        }
-    </style>
 </head>
 
 <body class="bg-pizzaria">
@@ -141,7 +52,7 @@ $total_clientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
         <div class="table-card-container">
 
             <!-- Cabeçalho da tabela -->
-            <div class="table-header-flex" style="margin-bottom: 25px;">
+            <div class="table-header-flex">
 
                 <div class="title-with-logo">
                     <img
@@ -161,10 +72,7 @@ $total_clientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
             </div>
 
             <!-- Barra de Ações e os Dois Botões de Filtro -->
-            <div
-                class="table-actions-bar"
-                style="margin-top: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;"
-            >
+            <div class="table-actions-bar table-actions-bar--toolbar">
                 <a
                     href="form_cad_user.php"
                     class="btn-dominos btn-primary"
@@ -186,16 +94,14 @@ $total_clientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
 
                     <thead>
                         <tr>
-                            <th style="width: 70px;">ID</th>
+                            <th class="col-id">ID</th>
                             <th>Nome</th>
                             <th>E-mail</th>
                             <th>Telefone</th>
                             <th>Endereço</th>
                             <th>Cadastro</th>
                             <th>Nível de acesso</th>
-                            <th style="width: 120px; text-align: center;">
-                                Ações
-                            </th>
+                            <th class="col-acoes">Ações</th>
                         </tr>
                     </thead>
 
@@ -282,7 +188,7 @@ $total_clientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
                                     </td>
 
                                     <!-- Ações -->
-                                    <td style="text-align: center; white-space: nowrap;">
+                                    <td class="cell-actions">
                                         <a href="editar.php?tabela=cliente&id=<?= (int) $linha['id'] ?>" class="btn-action-edit">Editar</a>
                                         <a
                                             href="excluir.php?tabela=cliente&id=<?= (int) $linha['id'] ?>"

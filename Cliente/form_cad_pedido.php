@@ -11,7 +11,11 @@ $res_produtos = mysqli_query($conexao, "SELECT id, nome, preco FROM produto ORDE
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Novo Pedido - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css?v=6.0">
+    <link rel="stylesheet" href="style/base.css?v=10.0">
+    <link rel="stylesheet" href="style/menu.css?v=10.0">
+    <link rel="stylesheet" href="style/rodape.css?v=10.0">
+    <link rel="stylesheet" href="style/componentes.css?v=10.0">
+    <link rel="stylesheet" href="style/formularios.css?v=10.0">
 </head>
 <body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>
@@ -83,9 +87,9 @@ $res_produtos = mysqli_query($conexao, "SELECT id, nome, preco FROM produto ORDE
                     <input type="date" name="data_pedido" value="<?= date('Y-m-d') ?>" required>
                 </div>
 
-                <div class="form-buttons" style="margin-top: 15px;">
+                <div class="form-buttons">
                     <button type="submit" class="btn-dominos btn-primary btn-full">Cadastrar Pedido</button>
-                    <a href="consultar_pedido.php" class="btn-dominos btn-outline btn-full" style="display: block; text-align: center; box-sizing: border-box;">Ver Tabela de Pedidos</a>
+                    <a href="consultar_pedido.php" class="btn-dominos btn-outline btn-full">Ver Tabela de Pedidos</a>
                 </div>
             </form>
         </div>

@@ -1,0 +1,154 @@
+/* ==========================================
+   FORMULÁRIOS DE CADASTRO E EDIÇÃO
+   ========================================== */
+
+.split-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+}
+
+.split-art {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.art-text h2 {
+    font-size: 32px;
+    color: #78350f;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.6);
+}
+
+.art-text p {
+    font-size: 16px;
+    color: #92400e;
+    margin: 0;
+    font-weight: 500;
+}
+
+.art-image {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 12px 24px rgba(120, 53, 15, 0.25));
+    transition: transform 0.3s ease;
+}
+
+.art-image:hover {
+    transform: scale(1.03);
+}
+
+.split-form-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 35px 30px;
+    box-shadow: 0 14px 35px rgba(120, 53, 15, 0.15);
+    border: 3px solid #f59e0b;
+    position: relative;
+    overflow: hidden;
+}
+
+.split-form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(to right, #15803d 33%, #ffffff 33%, #ffffff 66%, #b91c1c 66%);
+}
+
+.split-form-card h2 {
+    font-size: 24px;
+    color: #78350f;
+    font-weight: 700;
+    margin-top: 5px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #78350f;
+    margin-bottom: 6px;
+}
+
+.modern-form input,
+.modern-form select,
+.modern-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #fcd34d;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fffdf5;
+    color: #1f2937;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.modern-form textarea {
+    resize: none;
+}
+
+.modern-form input:focus,
+.modern-form select:focus,
+.modern-form textarea:focus {
+    outline: none;
+    border-color: #d97706;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.15);
+}
+
+.form-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.form-buttons--spaced {
+    margin-top: 20px;
+}
+
+@media (max-width: 850px) {
+    .split-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        margin: 20px auto;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

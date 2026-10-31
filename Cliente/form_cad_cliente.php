@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Rápido de Cliente - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css?v=4.5">
+    <link rel="stylesheet" href="style/base.css?v=10.0">
+    <link rel="stylesheet" href="style/menu.css?v=10.0">
+    <link rel="stylesheet" href="style/rodape.css?v=10.0">
+    <link rel="stylesheet" href="style/componentes.css?v=10.0">
+    <link rel="stylesheet" href="style/formularios.css?v=10.0">
 </head>
 <body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>
@@ -46,9 +50,9 @@
                     <input type="text" name="endereco" placeholder="Rua, número, ponto de referência" required>
                 </div>
 
-                <div class="form-buttons" style="margin-top: 15px;">
+                <div class="form-buttons">
                     <button type="submit" class="btn-dominos btn-primary btn-full">Salvar no Banco de Dados</button>
-                    <a href="consultar_user.php" class="btn-dominos btn-outline btn-full" style="display: block; text-align: center; box-sizing: border-box;">Ver Tabela de Clientes</a>
+                    <a href="consultar_user.php" class="btn-dominos btn-outline btn-full">Ver Tabela de Clientes</a>
                 </div>
             </form>
         </div>

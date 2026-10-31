@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Categoria - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css?v=4.2">
+    <link rel="stylesheet" href="style/base.css?v=10.0">
+    <link rel="stylesheet" href="style/menu.css?v=10.0">
+    <link rel="stylesheet" href="style/rodape.css?v=10.0">
+    <link rel="stylesheet" href="style/componentes.css?v=10.0">
+    <link rel="stylesheet" href="style/formularios.css?v=10.0">
 </head>
 <body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>
@@ -31,12 +35,12 @@
 
                 <div class="form-group">
                     <label>Descrição</label>
-                    <textarea name="descricao" rows="3" placeholder="Descrição da categoria (opcional)" style="width: 100%; padding: 12px 14px; border: 1.5px solid #fcd34d; border-radius: 10px; font-size: 14px; font-family: 'Poppins', sans-serif; background-color: #fffdf5; color: #1f2937; resize: none; box-sizing: border-box;"></textarea>
+                    <textarea name="descricao" rows="3" placeholder="Descrição da categoria (opcional)"></textarea>
                 </div>
 
-                <div class="form-buttons" style="margin-top: 15px;">
+                <div class="form-buttons">
                     <button type="submit" class="btn-dominos btn-primary btn-full">Cadastrar Categoria</button>
-                    <a href="consultar_categoria.php" class="btn-dominos btn-outline btn-full" style="display: block; text-align: center; box-sizing: border-box;">Ver Tabela de Categorias</a>
+                    <a href="consultar_categoria.php" class="btn-dominos btn-outline btn-full">Ver Tabela de Categorias</a>
                 </div>
             </form>
         </div>

@@ -101,7 +101,11 @@ if ($tabela === 'produto') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($info_tabela['titulo']) ?> - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css?v=8.0">
+    <link rel="stylesheet" href="style/base.css?v=10.0">
+    <link rel="stylesheet" href="style/menu.css?v=10.0">
+    <link rel="stylesheet" href="style/rodape.css?v=10.0">
+    <link rel="stylesheet" href="style/componentes.css?v=10.0">
+    <link rel="stylesheet" href="style/formularios.css?v=10.0">
 </head>
 <body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>
@@ -119,7 +123,7 @@ if ($tabela === 'produto') {
             <h2><?= htmlspecialchars($info_tabela['titulo']) ?> #<?= $id ?></h2>
 
             <?php if (!empty($mensagem)): ?>
-                <div style="background-color: <?= $sucesso ? '#d1fae5' : '#fee2e2' ?>; color: <?= $sucesso ? '#065f46' : '#991b1b' ?>; border: 1.5px solid <?= $sucesso ? '#a7f3d0' : '#fecaca' ?>; padding: 12px; border-radius: 10px; font-weight: 600; margin-bottom: 20px; font-size: 14px; text-align: center;">
+                <div class="alert <?= $sucesso ? 'alert-success' : 'alert-error' ?> alert--form">
                     <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
                 </div>
             <?php endif; ?>
@@ -136,7 +140,7 @@ if ($tabela === 'produto') {
 
                     <div class="form-group">
                         <label>Descrição</label>
-                        <textarea name="descricao" rows="3" style="width: 100%; padding: 12px 14px; border: 1.5px solid #fcd34d; border-radius: 10px; font-size: 14px; font-family: 'Poppins', sans-serif; background-color: #fffdf5; color: #1f2937; resize: none; box-sizing: border-box;"><?= htmlspecialchars($registro['descricao'] ?? '') ?></textarea>
+                        <textarea name="descricao" rows="3"><?= htmlspecialchars($registro['descricao'] ?? '') ?></textarea>
                     </div>
 
                 <?php elseif ($tabela === 'cliente'): ?>
@@ -211,9 +215,9 @@ if ($tabela === 'produto') {
                     </div>
                 <?php endif; ?>
 
-                <div class="form-buttons" style="margin-top: 20px;">
+                <div class="form-buttons form-buttons--spaced">
                     <button type="submit" class="btn-dominos btn-primary btn-full">Salvar Alterações</button>
-                    <a href="<?= htmlspecialchars($info_tabela['retorno']) ?>" class="btn-dominos btn-outline btn-full" style="display: block; text-align: center; box-sizing: border-box;">Voltar para Tabela</a>
+                    <a href="<?= htmlspecialchars($info_tabela['retorno']) ?>" class="btn-dominos btn-outline btn-full">Voltar para Tabela</a>
                 </div>
             </form>
         </div>

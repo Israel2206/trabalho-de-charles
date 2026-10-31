@@ -1,7 +1,7 @@
 -- =======================================================
 -- Banco de Dados Oficial: pizzaria_chapada
 -- Arquivo de persistência física permanente: BD.sql
--- Última sincronização: 2026-10-31 00:02:53
+-- Última sincronização: 2026-10-31 00:29:21
 -- =======================================================
 
 CREATE DATABASE IF NOT EXISTS pizzaria_chapada;
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS item_pedido (
 
 -- Dados persistidos na tabela `categoria`
 INSERT INTO `categoria` (`id`, `nome`, `descricao`) VALUES ('1', 'Pizzas Salgadas', 'Pizzas tradicionais salgadas') ON DUPLICATE KEY UPDATE id=id;
-INSERT INTO `categoria` (`id`, `nome`, `descricao`) VALUES ('2', 'Bebidas Especiais', 'Sucos naturais e vinhos') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `categoria` (`id`, `nome`, `descricao`) VALUES ('2', 'Bebidas Especiais g', 'Sucos naturais e vinhos') ON DUPLICATE KEY UPDATE id=id;
 
 -- Dados persistidos na tabela `cliente`
 INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `datacad`, `nivel_acesso`) VALUES ('1', 'breno', 'aidento@gmail.com', '$2y$12$Tj8ztXR27p9tD7AMk/3SIu5yVwkxQW/po4IpzjkurUFQGuO2ucmkG', '12345678', '234567', '5222-04-23 00:00:00', '1') ON DUPLICATE KEY UPDATE id=id;

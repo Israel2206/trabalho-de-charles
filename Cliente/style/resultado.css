@@ -1,0 +1,64 @@
+/* ==========================================
+   TELA DE RESULTADO DOS CADASTROS (cad_*.php)
+   ========================================== */
+
+.result-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+}
+
+.result-card {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    padding: 40px 30px;
+    box-sizing: border-box;
+}
+
+.result-banner {
+    width: 180px;
+    height: auto;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 6px 12px rgba(120, 53, 15, 0.2));
+}
+
+.result-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.result-title {
+    font-size: 26px;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.result-title-success {
+    color: #78350f;
+}
+
+.result-title-error {
+    color: #991b1b;
+}
+
+.result-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.result-buttons a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+}

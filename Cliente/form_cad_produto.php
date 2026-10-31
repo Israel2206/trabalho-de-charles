@@ -10,7 +10,11 @@ $res_cat = mysqli_query($conexao, "SELECT id, nome FROM categoria ORDER BY nome 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produto - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css?v=5.0">
+    <link rel="stylesheet" href="style/base.css?v=10.0">
+    <link rel="stylesheet" href="style/menu.css?v=10.0">
+    <link rel="stylesheet" href="style/rodape.css?v=10.0">
+    <link rel="stylesheet" href="style/componentes.css?v=10.0">
+    <link rel="stylesheet" href="style/formularios.css?v=10.0">
 </head>
 <body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>
@@ -61,9 +65,9 @@ $res_cat = mysqli_query($conexao, "SELECT id, nome FROM categoria ORDER BY nome 
                     </div>
                 </div>
 
-                <div class="form-buttons" style="margin-top: 15px;">
+                <div class="form-buttons">
                     <button type="submit" class="btn-dominos btn-primary btn-full">Cadastrar Produto</button>
-                    <a href="consultar_produto.php" class="btn-dominos btn-outline btn-full" style="display: block; text-align: center; box-sizing: border-box;">Ver Tabela de Produtos</a>
+                    <a href="consultar_produto.php" class="btn-dominos btn-outline btn-full">Ver Tabela de Produtos</a>
                 </div>
             </form>
         </div>

@@ -70,83 +70,12 @@ if ($filtro === 'media') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabela de Pedidos - Pizzaria da Chapada</title>
-    <link rel="stylesheet" href="style.css?v=8.2">
-    <style>
-        .title-with-logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .section-logo {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            border-radius: 50%;
-            background: #fff;
-            padding: 3px;
-            border: 2.5px solid #fcd34d;
-            box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
-        }
-        /* Estilo dos Botões de Filtro em Pílula */
-        .filter-pills {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .btn-pill {
-            background-color: #f3f4f6;
-            color: #4b5563;
-            border: 1px solid #d1d5db;
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-        .btn-pill:hover {
-            background-color: #e5e7eb;
-        }
-        .btn-pill.active {
-            background-color: #d97706;
-            color: #ffffff;
-            border-color: #b45309;
-        }
-        /* Barra de Pesquisa */
-        .search-box {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .search-input {
-            padding: 8px 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 20px;
-            font-size: 13px;
-            outline: none;
-            width: 230px;
-        }
-        .search-btn {
-            background-color: #78350f;
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        /* Card de Relatório de Média */
-        .media-card-box {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border: 1.5px solid #f59e0b;
-            padding: 25px;
-            border-radius: 16px;
-            text-align: center;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 12px rgba(120, 53, 15, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="style/base.css?v=10.0">
+    <link rel="stylesheet" href="style/menu.css?v=10.0">
+    <link rel="stylesheet" href="style/rodape.css?v=10.0">
+    <link rel="stylesheet" href="style/componentes.css?v=10.0">
+    <link rel="stylesheet" href="style/tabelas.css?v=10.0">
+    <link rel="stylesheet" href="style/consultas.css?v=10.0">
 </head>
 <body class="bg-pizzaria">
     <?php include 'Menu1.php'; ?>
@@ -155,7 +84,7 @@ if ($filtro === 'media') {
         <div class="table-card-container">
             
             <!-- Cabeçalho -->
-            <div class="table-header-flex" style="margin-bottom: 25px;">
+            <div class="table-header-flex">
                 <div class="title-with-logo">
                     <img src="Pedidos.png" alt="Logo Pedidos" class="section-logo">
                     <h2>Tabela de Pedidos</h2>
@@ -164,7 +93,7 @@ if ($filtro === 'media') {
             </div>
 
             <!-- Barra de Ações, Filtros, Botão Média e Pesquisa -->
-            <div class="table-actions-bar" style="margin-top: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div class="table-actions-bar table-actions-bar--toolbar">
                 <a href="form_cad_pedido.php" class="btn-dominos btn-primary">+ Novo Pedido</a>
                 
                 <!-- Botões de Filtro -->
@@ -185,16 +114,16 @@ if ($filtro === 'media') {
             <!-- EXIBIÇÃO DO PAINEL DE MÉDIA SE O BOTÃO FOR CLICADO -->
             <?php if ($filtro === 'media'): ?>
                 <div class="media-card-box">
-                    <h3 style="color: #78350f; margin-bottom: 8px; font-size: 19px;">Relatório de Faturamento e Ganhos (Entregues)</h3>
-                    <p style="color: #92400e; font-size: 14px; margin-bottom: 15px;">Valores calculados com base nos registros do calendário do sistema.</p>
-                    <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
-                        <div style="background: #fff; padding: 15px 25px; border-radius: 12px; border: 1.5px solid #fcd34d;">
-                            <span style="display: block; font-size: 12px; color: #78350f; font-weight: 700; text-transform: uppercase;">Ganho Última Semana</span>
-                            <strong style="font-size: 22px; color: #065f46;">R$ <?= number_format($ganho_semanal, 2, ',', '.') ?></strong>
+                    <h3>Relatório de Faturamento e Ganhos (Entregues)</h3>
+                    <p>Valores calculados com base nos registros do calendário do sistema.</p>
+                    <div class="media-stats">
+                        <div class="media-stat">
+                            <span class="media-stat-label">Ganho Última Semana</span>
+                            <strong class="media-stat-value">R$ <?= number_format($ganho_semanal, 2, ',', '.') ?></strong>
                         </div>
-                        <div style="background: #fff; padding: 15px 25px; border-radius: 12px; border: 1.5px solid #fcd34d;">
-                            <span style="display: block; font-size: 12px; color: #78350f; font-weight: 700; text-transform: uppercase;">Ganho Mensal Atual</span>
-                            <strong style="font-size: 22px; color: #065f46;">R$ <?= number_format($ganho_mensal, 2, ',', '.') ?></strong>
+                        <div class="media-stat">
+                            <span class="media-stat-label">Ganho Mensal Atual</span>
+                            <strong class="media-stat-value">R$ <?= number_format($ganho_mensal, 2, ',', '.') ?></strong>
                         </div>
                     </div>
                 </div>
@@ -205,15 +134,15 @@ if ($filtro === 'media') {
                 <table class="modern-table">
                     <thead>
                         <tr>
-                            <th style="width: 70px;">Pedido</th>
+                            <th class="col-id">Pedido</th>
                             <th>Cliente</th>
                             <th>Item / Pizza</th>
-                            <th style="width: 70px;">Qtd</th>
+                            <th class="col-qtd">Qtd</th>
                             <th>Preço Unit.</th>
                             <th>Valor Total</th>
                             <th>Data</th>
                             <th>Status</th>
-                            <th style="width: 120px; text-align: center;">Ações</th>
+                            <th class="col-acoes">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -225,7 +154,7 @@ if ($filtro === 'media') {
                                     <td><span class="category-desc"><?= htmlspecialchars($linha['produto_nome'] ?: 'Item avulso') ?></span></td>
                                     <td><?= (int)($linha['quantidade'] ?: 1) ?></td>
                                     <td>R$ <?= number_format($linha['preco_unitario'] ?: 0, 2, ',', '.') ?></td>
-                                    <td><strong style="color: #d97706;">R$ <?= number_format($linha['valor_total'], 2, ',', '.') ?></strong></td>
+                                    <td><strong class="valor-total">R$ <?= number_format($linha['valor_total'], 2, ',', '.') ?></strong></td>
                                     <td>
                                         <?php 
                                         if (!empty($linha['data_pedido'])) {
@@ -239,17 +168,19 @@ if ($filtro === 'media') {
                                     <td>
                                         <?php
                                         $status = $linha['status'];
-                                        $bg = '#e5e7eb'; $color = '#374151';
-                                        if ($status == 'Pendente') { $bg = '#fef3c7'; $color = '#92400e'; }
-                                        elseif ($status == 'Em preparo') { $bg = '#dbeafe'; $color = '#1e40af'; }
-                                        elseif ($status == 'Saiu para entrega') { $bg = '#e0e7ff'; $color = '#3730a3'; }
-                                        elseif ($status == 'Entregue') { $bg = '#d1fae5'; $color = '#065f46'; }
+                                        $status_classes = [
+                                            'Pendente' => 'status-pendente',
+                                            'Em preparo' => 'status-preparo',
+                                            'Saiu para entrega' => 'status-entrega',
+                                            'Entregue' => 'status-entregue',
+                                        ];
+                                        $status_classe = $status_classes[$status] ?? '';
                                         ?>
-                                        <span style="background-color: <?= $bg ?>; color: <?= $color ?>; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; display: inline-block;">
+                                        <span class="status-badge <?= $status_classe ?>">
                                             <?= htmlspecialchars($status) ?>
                                         </span>
                                     </td>
-                                    <td style="text-align: center; white-space: nowrap;">
+                                    <td class="cell-actions">
                                         <a href="editar.php?tabela=pedido&id=<?= (int)$linha['id'] ?>" class="btn-action-edit">Editar</a>
                                         <a href="excluir.php?tabela=pedido&id=<?= (int)$linha['id'] ?>" class="btn-action-danger" onclick="return confirm('Deseja realmente cancelar/excluir este pedido?');">Excluir</a>
                                     </td>
