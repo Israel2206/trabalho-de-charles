@@ -5,14 +5,16 @@ include "conexao.php";
 $mensagem = "";
 $sucesso = false;
 
+// Verifica se os dados foram enviadas pelo formulário
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
     $nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : '';
     $unidade_medida = isset($_POST["unidade_medida"]) ? trim($_POST["unidade_medida"]) : 'gramas';
-    $quantidade_atual = isset($_POST["quantidade_atual"]) ? floatval($_POST["quantidade_atual"]) : 0;
+    $quantidade_atual = isset($_POST["quantidade_atual"]) ? intval($_POST["quantidade_atual"]) : 0;
 
     if (!empty($nome)) {
         try {
-            // Verifica se já existe um ingrediente com o mesmo nome para evitar duplicatas
+            // 1. Verificação contra duplicidade (Evita poluir o banco com insumos repetidos)
             $sql_check = "SELECT id FROM ingrediente WHERE LOWER(nome) = LOWER(?)";
             $stmt_check = mysqli_prepare($conexao, $sql_check);
             mysqli_stmt_bind_param($stmt_check, "s", $nome);
@@ -23,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 throw new Exception("O ingrediente '$nome' já está cadastrado no sistema! Use a opção de Editar na tabela para alterar a quantidade.");
             }
 
-            // Insere o novo ingrediente
+            // 2. Insere o novo ingrediente caso não exista duplicado
             $sql = "INSERT INTO ingrediente (nome, unidade_medida, quantidade_atual) VALUES (?, ?, ?)";
             $stmt = mysqli_prepare($conexao, $sql);
-            mysqli_stmt_bind_param($stmt, "ssd", $nome, $unidade_medida, $quantidade_atual);
+            mysqli_stmt_bind_param($stmt, "ssi", $nome, $unidade_medida, $quantidade_atual);
 
             if (mysqli_stmt_execute($stmt)) {
                 $sucesso = true;
@@ -52,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultado - Cadastro de Ingrediente</title>
     
+    <!-- Estilos organizados no cabeçalho -->
     <link rel="stylesheet" href="style/base.css?v=10.0">
     <link rel="stylesheet" href="style/menu.css?v=10.0">
     <link rel="stylesheet" href="style/rodape.css?v=10.0">

@@ -1,7 +1,7 @@
 -- =======================================================
 -- Banco de Dados Oficial: pizzaria_chapada
 -- Arquivo de persistência física permanente: BD.sql
--- Última sincronização: 2026-10-20 14:05:57
+-- Última sincronização: 2026-11-17 08:21:44
 -- =======================================================
 
 CREATE DATABASE IF NOT EXISTS pizzaria_chapada;
@@ -57,29 +57,24 @@ CREATE TABLE IF NOT EXISTS item_pedido (
     FOREIGN KEY (id_produto) REFERENCES produto(id) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Cria a tabela de ingredientes (com o nome único para evitar duplicidade)
-CREATE TABLE IF NOT EXISTS ingrediente (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL UNIQUE,
-    unidade_medida VARCHAR(20) NOT NULL,
-    quantidade_atual DECIMAL(10,2) NOT NULL DEFAULT 0.00
-);
-
--- Cria a tabela de ligação da ficha técnica (vincula o produto aos ingredientes da receita)
-CREATE TABLE IF NOT EXISTS produto_ingrediente (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_produto INT NOT NULL,
-    id_ingrediente INT NOT NULL,
-    quantidade_necessaria DECIMAL(10,2) NOT NULL
-);
-
 -- Dados persistidos na tabela `categoria`
-INSERT INTO `categoria` (`id`, `nome`, `descricao`) VALUES ('1', 'Pizzas Salgadas', 'Pizza com sabores Tradicionais') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `categoria` (`id`, `nome`, `descricao`) VALUES ('1', 'Pizza Salgadas', 'TEM SAL') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `categoria` (`id`, `nome`, `descricao`) VALUES ('2', 'Bebidas', 'WOW') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `categoria` (`id`, `nome`, `descricao`) VALUES ('3', 'Bebidas', '') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `categoria` (`id`, `nome`, `descricao`) VALUES ('4', 'Pizzza tradicional', '') ON DUPLICATE KEY UPDATE id=id;
 
 -- Dados persistidos na tabela `cliente`
-INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `datacad`, `nivel_acesso`) VALUES ('1', 'Pirarinha Jose Mara', 'mucugegege@gmail.com', '$2y$10$KZwee6gWlzs511v1C6NPdO371EwgxcjSRlHsXQPEGETArR.YkQ21m', '7598896542', 'Rua São goncalo', '2026-10-20 00:00:00', '1') ON DUPLICATE KEY UPDATE id=id;
-INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `datacad`, `nivel_acesso`) VALUES ('2', 'Rayane Beatriz Castro', 'Rayanebeatrizcastro06@gmail.com', '$2y$10$p/NxLmbo8WMUVcVCtba/AOuyWWHlNRchbHnZQlEhXa0Oyxk/8/j9O', '7598843542', 'Rua Jacinto Leite', '2026-10-20 00:00:00', '1') ON DUPLICATE KEY UPDATE id=id;
-INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `datacad`, `nivel_acesso`) VALUES ('3', 'Loiro José Chico Cunha', 'mimizinhodocaixa@gmail.com', '$2y$10$1W/VXPOZTmfe/B5txLG6/ep2FkVX2KlRfclJvKYG28codJXYUStvW', '7598896542', 'Xique-xique Bahia', '2026-10-20 00:00:00', '1') ON DUPLICATE KEY UPDATE id=id;
-INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `datacad`, `nivel_acesso`) VALUES ('4', 'Luna Dente Amassado', 'Luaa32122as@gmail.com', '$2y$10$Cf4anR4uYh7r7egYtjefx.UfPXnc8u5IAQkmdkOKFvIBpcUnfpkw.', '7523645821', 'Pirarucaba', '2026-10-20 00:00:00', '1') ON DUPLICATE KEY UPDATE id=id;
-INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `datacad`, `nivel_acesso`) VALUES ('5', 'Fael Santos Amorim', 'Yeeedsgowe@gmail.com', '$2y$10$lfMJJR/kYft6VPZ2u6lC0.XTjewBZIqUiubpPT/rXgePbnzH0GAYK', '75365412587', 'Rua Lisboa', '2026-10-20 00:00:00', '1') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `datacad`, `nivel_acesso`) VALUES ('1', 'aidento', 'pudimlako@gmail.com', '$2y$10$7i4UXoRo1rG6ojl3WvjHZOzPfL3H1CaA8wgRqeyyZHtSBZfCRJv5m', '55998908028', 'Rua Santo Antonio', '2026-10-29 00:00:00', '1') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `cliente` (`id`, `nome`, `email`, `senha`, `telefone`, `endereco`, `datacad`, `nivel_acesso`) VALUES ('2', 'Luartee', 'lakopudim@gmail.com', '$2y$10$OwPU8pXW7g9CofcwX3x23OKLYjfDqnkKwbiTq94vjoFlPb/Yaecae', '756322367', 'Rua Paraiba', '2026-11-17 00:00:00', '1') ON DUPLICATE KEY UPDATE id=id;
+
+-- Dados persistidos na tabela `produto`
+INSERT INTO `produto` (`id`, `nome`, `preco`, `estoque`, `id_categoria`) VALUES ('1', 'Pizza de Frango', '40.00', '9', '1') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `produto` (`id`, `nome`, `preco`, `estoque`, `id_categoria`) VALUES ('2', 'Pizza de Queijo', '40.00', '10', '1') ON DUPLICATE KEY UPDATE id=id;
+INSERT INTO `produto` (`id`, `nome`, `preco`, `estoque`, `id_categoria`) VALUES ('3', 'Pizza de Calabresa', '43.00', '3', '1') ON DUPLICATE KEY UPDATE id=id;
+
+-- Dados persistidos na tabela `pedido`
+INSERT INTO `pedido` (`id`, `data_pedido`, `status`, `valor_total`, `id_cliente`) VALUES ('1', '2026-10-29 00:00:00', 'Pendente', '40.00', '1') ON DUPLICATE KEY UPDATE id=id;
+
+-- Dados persistidos na tabela `item_pedido`
+INSERT INTO `item_pedido` (`id`, `id_pedido`, `id_produto`, `quantidade`, `preco_unitario`) VALUES ('1', '1', '1', '1', '40.00') ON DUPLICATE KEY UPDATE id=id;
 

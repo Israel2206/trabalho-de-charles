@@ -19,7 +19,7 @@ if ($id > 0) {
     }
 }
 
-// Se o ingrediente não for encontrado, redireciona para a tabela de consulta
+// Se o ingrediente não for encontrado, redireciona para a consulta
 if (!$ingrediente) {
     header("Location: consultar_ingrediente.php");
     exit;
@@ -32,7 +32,7 @@ if (!$ingrediente) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Ingrediente - Pizzaria da Chapada</title>
     
-    <!-- Folhas de estilo externas unificadas na pasta style/ -->
+    <!-- Carregamento organizado de estilos na pasta style/ (Executado no topo do documento) -->
     <link rel="stylesheet" href="style/base.css?v=10.0">
     <link rel="stylesheet" href="style/menu.css?v=10.0">
     <link rel="stylesheet" href="style/rodape.css?v=10.0">
@@ -45,6 +45,7 @@ if (!$ingrediente) {
     <!-- Inclusão do Menu Superior Padronizado -->
     <?php include 'Menu1.php'; ?>
 
+    <!-- Container Principal do Formulário -->
     <div class="split-container">
         
         <!-- Lado esquerdo: Arte e Descrição -->
@@ -62,7 +63,7 @@ if (!$ingrediente) {
             
             <form action="edit_ingrediente.php" method="POST" class="modern-form">
                 
-                <!-- ID Oculto para identificar qual registro atualizar no banco -->
+                <!-- ID Oculto para identificar qual registro atualizar -->
                 <input type="hidden" name="id" value="<?= (int)$ingrediente['id'] ?>">
                 
                 <!-- Campo: Nome do Ingrediente -->
@@ -85,7 +86,7 @@ if (!$ingrediente) {
 
                     <div class="form-group">
                         <label for="quantidade_atual">Quantidade em Estoque:</label>
-                        <input type="number" step="any" min="0" id="quantidade_atual" name="quantidade_atual" value="<?= $ingrediente['quantidade_atual'] ?>" required>
+                        <input type="number" step="1" min="0" id="quantidade_atual" name="quantidade_atual" value="<?= (int)$ingrediente['quantidade_atual'] ?>" required>
                     </div>
                 </div>
 

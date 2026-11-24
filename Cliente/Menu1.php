@@ -12,9 +12,9 @@
             <a href="#">Cadastro &#9662;</a>
             <div class="submenu">
                 <a href="form_cad_user.php">Cadastrar Cliente</a>
+                <a href="form_cad_ingrediente.php">Cadastrar Ingrediente</a>
                 <a href="form_cad_categoria.php">Cadastrar Categoria</a>
                 <a href="form_cad_produto.php">Cadastrar Produto</a>
-                <a href="form_cad_ingrediente.php">Cadastrar Ingredientes</a>
                 <a href="form_cad_pedido.php">Cadastrar Pedido</a>
             </div>
         </div>
@@ -23,9 +23,9 @@
             <a href="#">Consultar Tabelas &#9662;</a>
             <div class="submenu">
                 <a href="consultar_user.php">Tabela Clientes</a>
+                <a href="consultar_ingrediente.php">Tabela Ingrediente</a>
                 <a href="consultar_categoria.php">Tabela Categorias</a>
                 <a href="consultar_produto.php">Tabela Produtos</a>
-                <a href="consultar_ingrediente.php">Tabela Ingredientes</a>
                 <a href="consultar_pedido.php">Tabela Pedidos</a>
             </div>
         </div>

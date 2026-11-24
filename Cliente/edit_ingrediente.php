@@ -2,19 +2,22 @@
 // Inclui a conexão com o banco de dados
 include "conexao.php";
 
+// Inicializa variáveis de controle de resposta
 $mensagem = "";
 $sucesso = false;
-$id = 0;
 
+// Processa o envio via formulário POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // Captura e limpa os campos enviados
     $id = isset($_POST["id"]) ? intval($_POST["id"]) : 0;
     $nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : '';
     $unidade_medida = isset($_POST["unidade_medida"]) ? trim($_POST["unidade_medida"]) : 'gramas';
-    $quantidade_atual = isset($_POST["quantidade_atual"]) ? floatval($_POST["quantidade_atual"]) : 0;
+    $quantidade_atual = isset($_POST["quantidade_atual"]) ? intval($_POST["quantidade_atual"]) : 0;
 
     if ($id > 0 && !empty($nome)) {
         try {
-            // Valida se já existe outro ingrediente com o mesmo nome (evitando duplicatas)
+            // 1. Valida se o novo nome digitado já existe em OUTRO ingrediente (evita duplicidade)
             $sql_check = "SELECT id FROM ingrediente WHERE LOWER(nome) = LOWER(?) AND id != ?";
             $stmt_check = mysqli_prepare($conexao, $sql_check);
             mysqli_stmt_bind_param($stmt_check, "si", $nome, $id);
@@ -25,10 +28,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 throw new Exception("Já existe outro ingrediente cadastrado com esse nome!");
             }
 
-            // Executa a atualização (UPDATE) no banco de dados
+            // 2. Executa a atualização (UPDATE) no banco de dados
             $sql = "UPDATE ingrediente SET nome = ?, unidade_medida = ?, quantidade_atual = ? WHERE id = ?";
             $stmt = mysqli_prepare($conexao, $sql);
-            mysqli_stmt_bind_param($stmt, "ssdi", $nome, $unidade_medida, $quantidade_atual, $id);
+            mysqli_stmt_bind_param($stmt, "ssii", $nome, $unidade_medida, $quantidade_atual, $id);
 
             if (mysqli_stmt_execute($stmt)) {
                 $sucesso = true;
@@ -54,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resultado - Edição de Ingrediente</title>
     
-    <!-- Folhas de estilo externas unificadas na pasta style/ -->
+    <!-- Carregamento de estilos na pasta style/ no topo do arquivo -->
     <link rel="stylesheet" href="style/base.css?v=10.0">
     <link rel="stylesheet" href="style/menu.css?v=10.0">
     <link rel="stylesheet" href="style/rodape.css?v=10.0">
@@ -66,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include 'Menu1.php'; ?>
 
+    <!-- Wrapper do Resultado da Edição (Mesmo padrão do sistema) -->
     <div class="main-wrapper result-wrapper">
         <div class="table-card-container result-card">
             <?php if ($sucesso): ?>
@@ -84,11 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
                 </div>
                 <div class="result-buttons">
-                    <?php if ($id > 0): ?>
-                        <a href="form_edit_ingrediente.php?id=<?= $id ?>" class="btn-dominos btn-primary">Tentar Novamente</a>
-                    <?php else: ?>
-                        <a href="consultar_ingrediente.php" class="btn-dominos btn-primary">Ir para Tabela de Ingredientes</a>
-                    <?php endif; ?>
+                    <a href="form_edit_ingrediente.php?id=<?= $id ?>" class="btn-dominos btn-primary">Tentar Novamente</a>
                 </div>
             <?php endif; ?>
         </div>

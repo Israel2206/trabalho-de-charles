@@ -13,6 +13,7 @@ if (isset($_GET['acao']) && $_GET['acao'] === 'excluir' && isset($_GET['id'])) {
         mysqli_stmt_execute($stmt_del);
     }
     
+    // Recarrega a própria página limpa (sem parâmetros GET) mantendo o usuário na tela
     header("Location: consultar_ingrediente.php");
     exit;
 }
@@ -32,6 +33,7 @@ $total_ingredientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabela de Ingredientes - Pizzaria da Chapada</title>
     
+    <!-- Carregamento de estilos localizados na pasta style/ -->
     <link rel="stylesheet" href="style/base.css?v=10.0">
     <link rel="stylesheet" href="style/menu.css?v=10.0">
     <link rel="stylesheet" href="style/rodape.css?v=10.0">
@@ -42,11 +44,13 @@ $total_ingredientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
 </head>
 <body class="bg-pizzaria">
 
+    <!-- Inclusão do Menu Superior Padronizado -->
     <?php include 'Menu1.php'; ?>
 
     <div class="main-wrapper">
         <div class="table-card-container">
 
+            <!-- Cabeçalho com Logo e Contador -->
             <div class="table-header-flex">
                 <div class="title-with-logo">
                     <img src="Ingredientes.png" alt="Logo Ingredientes" class="section-logo" onerror="this.style.display='none'">
@@ -57,12 +61,14 @@ $total_ingredientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
                 </span>
             </div>
 
+            <!-- Botão de Novo Cadastro -->
             <div class="table-actions-bar">
                 <a href="form_cad_ingrediente.php" class="btn-dominos btn-primary">
                     + Novo Ingrediente
                 </a>
             </div>
 
+            <!-- Tabela de Dados -->
             <div class="table-responsive">
                 <table class="modern-table">
                     <thead>
@@ -78,26 +84,37 @@ $total_ingredientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
                         <?php if ($total_ingredientes > 0): ?>
                             <?php while ($linha = mysqli_fetch_assoc($resultado)): ?>
                                 <tr>
+                                    <!-- ID -->
                                     <td>
                                         <strong>#<?= (int)$linha['id'] ?></strong>
                                     </td>
+
+                                    <!-- Nome -->
                                     <td>
                                         <span class="category-name">
                                             <?= htmlspecialchars($linha['nome'], ENT_QUOTES, 'UTF-8') ?>
                                         </span>
                                     </td>
+
+                                    <!-- Quantidade (Valor Inteiro Puro) -->
                                     <td>
                                         <strong style="color: #065f46;">
-                                            +<?= $linha['quantidade_atual'] ?>
+                                            <?= (int)$linha['quantidade_atual'] ?>
                                         </strong>
                                     </td>
+
+                                    <!-- Unidade de Medida -->
                                     <td>
                                         <?= htmlspecialchars($linha['unidade_medida'], ENT_QUOTES, 'UTF-8') ?>
                                     </td>
+
+                                    <!-- Coluna de Ações (Editar e Excluir) -->
                                     <td class="cell-actions" style="text-align: center;">
-                                        <a href="form_edit_ingrediente.php?id=<?= (int)$linha['id'] ?>" class="btn-action-edit">
+                                        <a href="form_edit_ingrediente.php?id=<?= (int)$linha['id'] ?>" 
+                                           class="btn-action-edit">
                                             Editar
                                         </a>
+                                        
                                         <a href="consultar_ingrediente.php?acao=excluir&id=<?= (int)$linha['id'] ?>" 
                                            class="btn-action-danger" 
                                            onclick="return confirm('Deseja realmente excluir o ingrediente <?= htmlspecialchars($linha['nome'], ENT_QUOTES, 'QUOTES') ?>?');">
@@ -120,6 +137,7 @@ $total_ingredientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
         </div>
     </div>
 
+    <!-- Rodapé Padronizado -->
     <?php include 'rodape.php'; ?>
 
 </body>
