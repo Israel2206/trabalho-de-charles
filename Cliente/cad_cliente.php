@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 $nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : '';

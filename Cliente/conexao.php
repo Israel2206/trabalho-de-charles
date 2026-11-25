@@ -87,8 +87,25 @@ function sincronizar_bd_sql($conexao) {
     data_pedido DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(30) NOT NULL DEFAULT 'Pendente',
     valor_total DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    forma_pagamento VARCHAR(50) NOT NULL DEFAULT 'Pix',
     id_cliente INT NOT NULL,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
+
+        "ingrediente" => "CREATE TABLE IF NOT EXISTS ingrediente (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    unidade_medida VARCHAR(30) NOT NULL DEFAULT 'gramas',
+    quantidade_atual DECIMAL(10, 2) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
+
+        "produto_ingrediente" => "CREATE TABLE IF NOT EXISTS produto_ingrediente (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_produto INT NOT NULL,
+    id_ingrediente INT NOT NULL,
+    quantidade_necessaria DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_produto) REFERENCES produto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
 
         "item_pedido" => "CREATE TABLE IF NOT EXISTS item_pedido (
@@ -148,6 +165,39 @@ function inicializar_a_partir_de_bd_sql($conexao) {
                     } while (mysqli_more_results($conexao) && mysqli_next_result($conexao));
                 }
             }
+        }
+    }
+
+    // Garante tabelas e colunas adicionadas posteriormente mesmo em bancos já existentes
+    @mysqli_query($conexao, "CREATE TABLE IF NOT EXISTS ingrediente (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        nome VARCHAR(100) NOT NULL,
+        unidade_medida VARCHAR(30) NOT NULL DEFAULT 'gramas',
+        quantidade_atual DECIMAL(10, 2) NOT NULL DEFAULT 0.00
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+    @mysqli_query($conexao, "CREATE TABLE IF NOT EXISTS produto_ingrediente (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        id_produto INT NOT NULL,
+        id_ingrediente INT NOT NULL,
+        quantidade_necessaria DECIMAL(10, 2) NOT NULL,
+        FOREIGN KEY (id_produto) REFERENCES produto(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (id_ingrediente) REFERENCES ingrediente(id) ON DELETE CASCADE ON UPDATE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+
+    $col_pgto = @mysqli_query($conexao, "SHOW COLUMNS FROM pedido LIKE 'forma_pagamento'");
+    if ($col_pgto && mysqli_num_rows($col_pgto) === 0) {
+        @mysqli_query($conexao, "ALTER TABLE pedido ADD COLUMN forma_pagamento VARCHAR(50) NOT NULL DEFAULT 'Pix' AFTER valor_total");
+    }
+
+    // Garante a existência da conta administradora padrão (usuário: adm / senha: adm123)
+    $res_adm = @mysqli_query($conexao, "SELECT id FROM cliente WHERE nome = 'adm' OR email = 'adm@pizzariadachapada.com' LIMIT 1");
+    if ($res_adm && mysqli_num_rows($res_adm) === 0) {
+        $senha_adm = '$2y$12$6jfXXtxwZUzOSDIndLhwsepulbVtIX0vhGAoHiy/glAcciLok2NqW';
+        $stmt_adm = @mysqli_prepare($conexao, "INSERT INTO cliente (nome, email, senha, telefone, endereco, nivel_acesso) VALUES ('adm', 'adm@pizzariadachapada.com', ?, '', '', 2)");
+        if ($stmt_adm) {
+            mysqli_stmt_bind_param($stmt_adm, "s", $senha_adm);
+            @mysqli_stmt_execute($stmt_adm);
         }
     }
 }

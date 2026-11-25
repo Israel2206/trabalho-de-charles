@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Captura os dados da nova categoria
@@ -51,7 +52,7 @@ if (!empty($nome)) {
                 <h2 class="result-title result-title-success">Tudo Pronto!</h2>
                 
                 <div class="alert alert-success">
-                    <?= $mensagem ?>
+                    <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
                 </div>
 
                 <div class="result-buttons">
@@ -63,7 +64,7 @@ if (!empty($nome)) {
                 <h2 class="result-title result-title-error">Atenção</h2>
                 
                 <div class="alert alert-error">
-                    <?= $mensagem ?>
+                    <?= htmlspecialchars($mensagem, ENT_QUOTES, 'UTF-8') ?>
                 </div>
 
                 <div class="result-buttons">

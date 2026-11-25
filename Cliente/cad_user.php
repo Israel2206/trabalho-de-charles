@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Captura e sanitiza as informações de cadastro do cliente

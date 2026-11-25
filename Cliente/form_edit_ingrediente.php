@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 // Inclui a conexão com o banco de dados
 include "conexao.php";
 

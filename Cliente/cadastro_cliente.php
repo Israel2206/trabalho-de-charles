@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $senha = isset($_POST["senha"]) ? trim($_POST["senha"]) : "";
     $telefone = isset($_POST["telefone"]) ? trim($_POST["telefone"]) : "";
     $endereco = isset($_POST["endereco"]) ? trim($_POST["endereco"]) : "";
-    $data_cadastro = date("Y-m-d");
-    $nivel_acesso = "Cliente";
+    $datacad = date("Y-m-d H:i:s");
+    $nivel_acesso = 1;
 
     if ($nome !== "" && $email !== "" && $senha !== "") {
         $inserido = false;
@@ -28,61 +28,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $res_check = mysqli_stmt_get_result($stmt_check);
                 if ($res_check && mysqli_num_rows($res_check) > 0) {
                     $mensagem = "Já existe um cadastro com este e-mail. Faça login para continuar.";
-                    $inserido = true;
                 }
             }
         } catch (Throwable $e) {
-            // Se a tabela cliente não tiver coluna email ou tiver outra estrutura, segue para tentar inserir
+            // Segue para tentar inserir
         }
 
-        if (!$inserido && $mensagem === "") {
+        if ($mensagem === "") {
             $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
-            $tentativas = [
-                [
-                    "sql" => "INSERT INTO cliente (nome, email, senha, telefone, endereco, data_cadastro, nivel_acesso) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    "types" => "sssssss",
-                    "params" => [$nome, $email, $senha_hash, $telefone, $endereco, $data_cadastro, $nivel_acesso]
-                ],
-                [
-                    "sql" => "INSERT INTO cliente (nome, email, senha, telefone, endereco) VALUES (?, ?, ?, ?, ?)",
-                    "types" => "sssss",
-                    "params" => [$nome, $email, $senha_hash, $telefone, $endereco]
-                ],
-                [
-                    "sql" => "INSERT INTO cliente (nome, email, telefone, endereco) VALUES (?, ?, ?, ?)",
-                    "types" => "ssss",
-                    "params" => [$nome, $email, $telefone, $endereco]
-                ]
-            ];
-
-            foreach ($tentativas as $t) {
-                try {
-                    $stmt = mysqli_prepare($conexao, $t["sql"]);
-                    if (!$stmt) {
-                        $erro_db = mysqli_error($conexao);
-                        continue;
-                    }
-                    mysqli_stmt_bind_param($stmt, $t["types"], ...$t["params"]);
+            try {
+                $stmt = mysqli_prepare(
+                    $conexao,
+                    "INSERT INTO cliente (nome, email, senha, telefone, endereco, datacad, nivel_acesso) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                );
+                if ($stmt) {
+                    mysqli_stmt_bind_param($stmt, "ssssssi", $nome, $email, $senha_hash, $telefone, $endereco, $datacad, $nivel_acesso);
                     if (mysqli_stmt_execute($stmt)) {
                         $inserido = true;
-                        $erro_db = "";
-                        break;
+                        $novo_id = (int) mysqli_insert_id($conexao);
                     } else {
                         $erro_db = mysqli_stmt_error($stmt) ?: mysqli_error($conexao);
                     }
-                } catch (Throwable $e) {
-                    $erro_db = $e->getMessage();
+                } else {
+                    $erro_db = mysqli_error($conexao);
                 }
+            } catch (Throwable $e) {
+                $erro_db = $e->getMessage();
             }
 
             if ($inserido) {
                 if (function_exists("sincronizar_bd_sql")) {
                     sincronizar_bd_sql($conexao);
                 }
+                $_SESSION["usuario_id"] = $novo_id ?? 0;
                 $_SESSION["usuario_nome"] = $nome;
                 $_SESSION["usuario_email"] = $email;
                 $_SESSION["nivel_acesso"] = "Cliente";
+                $_SESSION["tipo_usuario"] = "cliente";
                 $sucesso = true;
                 $mensagem = "Cadastro realizado com sucesso! Agora você já pode fazer seu pedido.";
             } else {

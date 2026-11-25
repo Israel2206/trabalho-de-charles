@@ -2,9 +2,8 @@
    ESTILO EXCLUSIVO DA VITRINE DO CLIENTE
    ========================================== */
 
-   body.cliente-body {
+body.cliente-body {
     margin: 0;
-    background-color: #faf7f2;
     color: #1c1917;
     font-family: 'Poppins', sans-serif;
 }

@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Consulta todas as categorias cadastradas em ordem decrescente de cadastro

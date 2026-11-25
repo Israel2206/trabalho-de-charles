@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 $tabela = isset($_GET['tabela']) ? $_GET['tabela'] : (isset($_POST['tabela']) ? $_POST['tabela'] : '');

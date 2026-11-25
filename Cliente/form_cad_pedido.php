@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Consulta os clientes e produtos para alimentar as opções do formulário

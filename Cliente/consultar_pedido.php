@@ -4,6 +4,10 @@ include "conexao.php";
 
 // Captura os filtros e a busca enviados via GET
 $filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'todos';
+$status_permitidos = ['Pendente', 'Em preparo', 'Saiu para entrega', 'Entregue'];
+$status_filtro = isset($_GET['status']) && in_array($_GET['status'], $status_permitidos, true)
+    ? $_GET['status']
+    : '';
 $busca = isset($_GET['busca']) ? mysqli_real_escape_string($conexao, trim($_GET['busca'])) : '';
 
 // Consulta base com os JOINs corretos do seu banco
@@ -18,6 +22,9 @@ $sql = "SELECT p.id, p.data_pedido, p.status, p.valor_total, c.nome AS cliente_n
 // Lógica estrita para o botão "Mais Vendidos" (apenas status Entregue)
 if ($filtro === 'mais_vendidos') {
     $sql .= " AND p.status = 'Entregue'";
+} elseif ($status_filtro !== '') {
+    $status_sql = mysqli_real_escape_string($conexao, $status_filtro);
+    $sql .= " AND p.status = '$status_sql'";
 }
 
 // Lógica da barra de pesquisa com suporte a data no formato 15/10/2026
@@ -99,15 +106,23 @@ if ($filtro === 'media') {
                 
                 <!-- Botões de Filtro -->
                 <div class="filter-pills">
-                    <a href="consultar_pedido.php" class="btn-pill <?= ($filtro === 'todos') ? 'active' : '' ?>">Todos</a>
-                    <a href="?filtro=mais_vendidos" class="btn-pill <?= ($filtro === 'mais_vendidos') ? 'active' : '' ?>"> Mais Vendidos</a>
-                    <a href="?filtro=media" class="btn-pill <?= ($filtro === 'media') ? 'active' : '' ?>"> Média</a>
+                    <a href="consultar_pedido.php" class="btn-pill <?= ($filtro === 'todos' && $status_filtro === '') ? 'active' : '' ?>">Todos</a>
+                    <a href="?filtro=mais_vendidos" class="btn-pill <?= ($filtro === 'mais_vendidos') ? 'active' : '' ?>">Mais Vendidos</a>
+                    <a href="?filtro=media" class="btn-pill <?= ($filtro === 'media') ? 'active' : '' ?>">Média</a>
                 </div>
 
-                <!-- Barra de Pesquisa -->
+                <!-- Filtro por Nível / Status do Pedido -->
                 <form method="GET" action="consultar_pedido.php" class="search-box">
-                    <input type="hidden" name="filtro" value="<?= htmlspecialchars($filtro) ?>">
-                    <input type="text" name="busca" class="search-input" placeholder="Pesquisar cliente, pizza, data..." value="<?= htmlspecialchars($busca) ?>">
+                    <input type="hidden" name="filtro" value="<?= htmlspecialchars($filtro === 'mais_vendidos' ? 'todos' : $filtro, ENT_QUOTES, 'UTF-8') ?>">
+                    <select name="status" class="search-input" onchange="this.form.submit()" aria-label="Filtrar por status do pedido">
+                        <option value="">Todos os status</option>
+                        <?php foreach ($status_permitidos as $st_opt): ?>
+                            <option value="<?= htmlspecialchars($st_opt, ENT_QUOTES, 'UTF-8') ?>" <?= ($status_filtro === $st_opt) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($st_opt, ENT_QUOTES, 'UTF-8') ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <input type="text" name="busca" class="search-input" placeholder="Pesquisar cliente, pizza, data..." value="<?= htmlspecialchars($busca, ENT_QUOTES, 'UTF-8') ?>">
                     <button type="submit" class="search-btn">Buscar</button>
                 </form>
             </div>

@@ -1,5 +1,6 @@
 
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Recebe e sanitiza os dados do formulário de pedidos

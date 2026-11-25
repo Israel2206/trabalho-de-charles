@@ -35,6 +35,11 @@ if ($id > 0 && array_key_exists($tabela, $tabelas_permitidas)) {
                         mysqli_stmt_bind_param($stmt_del_item, "i", $id_prod);
                         mysqli_stmt_execute($stmt_del_item);
                     }
+                    $stmt_del_ing = mysqli_prepare($conexao, "DELETE FROM produto_ingrediente WHERE id_produto = ?");
+                    if ($stmt_del_ing) {
+                        mysqli_stmt_bind_param($stmt_del_ing, "i", $id_prod);
+                        mysqli_stmt_execute($stmt_del_ing);
+                    }
                 }
             }
 
@@ -76,6 +81,17 @@ if ($id > 0 && array_key_exists($tabela, $tabelas_permitidas)) {
             if ($stmt_del_item_prod) {
                 mysqli_stmt_bind_param($stmt_del_item_prod, "i", $id);
                 mysqli_stmt_execute($stmt_del_item_prod);
+            }
+            $stmt_del_ing_prod = mysqli_prepare($conexao, "DELETE FROM produto_ingrediente WHERE id_produto = ?");
+            if ($stmt_del_ing_prod) {
+                mysqli_stmt_bind_param($stmt_del_ing_prod, "i", $id);
+                mysqli_stmt_execute($stmt_del_ing_prod);
+            }
+        } elseif ($tabela === "ingrediente") {
+            $stmt_del_prod_ing = mysqli_prepare($conexao, "DELETE FROM produto_ingrediente WHERE id_ingrediente = ?");
+            if ($stmt_del_prod_ing) {
+                mysqli_stmt_bind_param($stmt_del_prod_ing, "i", $id);
+                mysqli_stmt_execute($stmt_del_prod_ing);
             }
         }
 

@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style/menu.css?v=11.0">
 
@@ -31,10 +36,14 @@
             </div>
         </div>
 
-        <!-- Botões de Cadastro e Login -->
+        <!-- Botões de Cadastro/Login ou Vitrine/Sair -->
         <div class="auth-links">
-            <a href="form_cad_user.php" class="btn-menu-cadastro">Cadastro</a>
-            <a href="login.php" class="btn-menu-login">Login</a>
+            <a href="index1.php" class="btn-menu-cadastro">Vitrine</a>
+            <?php if (!empty($_SESSION["usuario_nome"])): ?>
+                <a href="logout.php" class="btn-menu-login">Sair</a>
+            <?php else: ?>
+                <a href="login.php" class="btn-menu-login">Login</a>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Captura o filtro selecionado via GET ('cliente' ou 'admin'). Se não houver, exibe todos por padrão.

@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $status = "Pendente";
-    $data_pedido = date("Y-m-d");
+    $data_pedido = date("Y-m-d H:i:s");
 
     if ($id_cliente <= 0) {
         $mensagem = "Você precisa se cadastrar para fazer um pedido.";
@@ -282,8 +282,15 @@ if ($res_produtos && mysqli_num_rows($res_produtos) > 0) {
             <a href="index1.php" class="cliente-link">Início</a>
             <a href="index1.php#top-pizzas" class="cliente-link">Top Pizzas</a>
             <a href="fazer_pedido.php" class="cliente-cta">Faça seu Pedido</a>
-            <a href="cadastro_cliente.php" class="cliente-btn-sec">Cadastro</a>
-            <a href="login.php" class="cliente-btn-login">Login</a>
+            <?php if ($cliente_logado): ?>
+                <?php if (($_SESSION["tipo_usuario"] ?? "") === "administrador"): ?>
+                    <a href="index.php" class="cliente-btn-sec">Painel Admin</a>
+                <?php endif; ?>
+                <a href="logout.php" class="cliente-btn-login">Sair (<?= htmlspecialchars(explode(" ", trim($cliente_logado["nome"]))[0], ENT_QUOTES, "UTF-8") ?>)</a>
+            <?php else: ?>
+                <a href="cadastro_cliente.php" class="cliente-btn-sec">Cadastro</a>
+                <a href="login.php" class="cliente-btn-login">Login</a>
+            <?php endif; ?>
         </nav>
     </header>
 

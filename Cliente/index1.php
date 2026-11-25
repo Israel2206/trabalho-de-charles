@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include "conexao.php";
 ?>
 <!DOCTYPE html>
@@ -23,8 +26,15 @@ include "conexao.php";
         <nav class="cliente-menu">
             <a href="#top-pizzas" class="cliente-link">Top Pizzas</a>
             <a href="fazer_pedido.php" class="cliente-cta">Faça seu Pedido</a>
-            <a href="form_cad_user.php" class="cliente-btn-sec">Cadastro</a>
-            <a href="login.php" class="cliente-btn-login">Login</a>
+            <?php if (!empty($_SESSION["usuario_nome"])): ?>
+                <?php if (($_SESSION["tipo_usuario"] ?? "") === "administrador"): ?>
+                    <a href="index.php" class="cliente-btn-sec">Painel Admin</a>
+                <?php endif; ?>
+                <a href="logout.php" class="cliente-btn-login">Sair (<?= htmlspecialchars(explode(" ", trim($_SESSION["usuario_nome"]))[0], ENT_QUOTES, "UTF-8") ?>)</a>
+            <?php else: ?>
+                <a href="cadastro_cliente.php" class="cliente-btn-sec">Cadastro</a>
+                <a href="login.php" class="cliente-btn-login">Login</a>
+            <?php endif; ?>
         </nav>
     </header>
 

@@ -2,7 +2,8 @@
    BASE — estilos globais da aplicação
    ========================================== */
 
-body.bg-pizzaria {
+body.bg-pizzaria,
+body.cliente-body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;

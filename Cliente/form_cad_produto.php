@@ -89,13 +89,13 @@ if ($res_ing && mysqli_num_rows($res_ing) > 0) {
                     </div>
                 </div>
 
-                <!-- SEÇÃO DA FICHA TÉCNICA (OBRIGATÓRIA APENAS QUANDO CATEGORIA COMEÇA COM "PIZZA") -->
+                <!-- SEÇÃO DA FICHA TÉCNICA (OBRIGATÓRIA QUANDO A CATEGORIA FOR DE PIZZA) -->
                 <div class="ingredients-section" id="ingredients-section">
                     <label class="ingredients-section-label" id="ingredients-label">
                         Ficha Técnica / Ingredientes Necessários (Obrigatório para Pizza)
                     </label>
                     <small id="ingredients-hint" style="display:block; margin-bottom:10px; color:#57534e;">
-                        Selecione uma categoria iniciada com "Pizza" para tornar os ingredientes obrigatórios.
+                        Selecione uma categoria de pizza para informar os ingredientes necessários.
                     </small>
 
                     <div id="ingredients-container">
@@ -121,21 +121,21 @@ if ($res_ing && mysqli_num_rows($res_ing) > 0) {
     <script>
         const ingredientesDisponiveis = <?= json_encode($lista_ingredientes) ?>;
 
-        function categoriaComecaComPizza() {
+        function categoriaEhPizza() {
             const selectCat = document.getElementById('id_categoria');
             if (!selectCat) return false;
             const option = selectCat.options[selectCat.selectedIndex];
-            const nomeCat = option ? (option.getAttribute('data-nome') || '') : '';
+            const nomeCat = option ? (option.getAttribute('data-nome') || option.textContent || '') : '';
             const normalizado = nomeCat
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .trim()
                 .toLowerCase();
-            return /^pizzas?\b/.test(normalizado);
+            return normalizado.includes('pizza');
         }
 
         function atualizarObrigatoriedadeIngredientes() {
-            const ehPizza = categoriaComecaComPizza();
+            const ehPizza = categoriaEhPizza();
             const secao = document.getElementById('ingredients-section');
             const label = document.getElementById('ingredients-label');
             const hint = document.getElementById('ingredients-hint');
@@ -161,7 +161,7 @@ if ($res_ing && mysqli_num_rows($res_ing) > 0) {
                 if (secao) secao.style.display = 'none';
                 if (btnAdd) btnAdd.style.display = 'none';
                 if (label) label.textContent = 'Ficha Técnica / Ingredientes Necessários (Opcional)';
-                if (hint) hint.textContent = 'Categoria não inicia com "Pizza": ingredientes não são obrigatórios.';
+                if (hint) hint.textContent = 'Categoria não é de pizza: ingredientes não são obrigatórios.';
 
                 selects.forEach(s => {
                     s.required = false;
@@ -174,16 +174,16 @@ if ($res_ing && mysqli_num_rows($res_ing) > 0) {
             }
         }
 
-        window.onload = function() {
+        document.addEventListener('DOMContentLoaded', function() {
             if (ingredientesDisponiveis.length > 0) {
                 addIngredientRow(false);
             }
             atualizarObrigatoriedadeIngredientes();
-        };
+        });
 
         function addIngredientRow(obrigatorio = null) {
             const container = document.getElementById('ingredients-container');
-            const exigir = (obrigatorio === null) ? categoriaComecaComPizza() : obrigatorio;
+            const exigir = (obrigatorio === null) ? categoriaEhPizza() : obrigatorio;
 
             let optionsHtml = '<option value="">Selecione o ingrediente...</option>';
             ingredientesDisponiveis.forEach(ing => {
@@ -204,7 +204,7 @@ if ($res_ing && mysqli_num_rows($res_ing) > 0) {
 
         function removerLinha(botao) {
             const container = document.getElementById('ingredients-container');
-            const ehPizza = categoriaComecaComPizza();
+            const ehPizza = categoriaEhPizza();
 
             if (container.children.length > 1) {
                 botao.parentElement.remove();
@@ -219,7 +219,7 @@ if ($res_ing && mysqli_num_rows($res_ing) > 0) {
         }
 
         function validarFormulario() {
-            if (!categoriaComecaComPizza()) {
+            if (!categoriaEhPizza()) {
                 return true;
             }
 

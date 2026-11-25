@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 $mensagem = "";
@@ -7,14 +8,43 @@ $sucesso = false;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = isset($_POST["nome"]) ? trim($_POST["nome"]) : '';
     $id_categoria = isset($_POST["id_categoria"]) ? intval($_POST["id_categoria"]) : 0;
-    $preco = isset($_POST["preco"]) ? floatval($_POST["preco"]) : 0;
-    $estoque = isset($_POST["estoque"]) ? intval($_POST["estoque"]) : 1; // Quantidade de unidades produzidas para o estoque
-    
-    // Arrays vindos da ficha técnica dinâmica
-    $ingredientes = isset($_POST["ingredientes"]) ? $_POST["ingredientes"] : [];
-    $quantidades = isset($_POST["quantidades"]) ? $_POST["quantidades"] : [];
+    $preco = isset($_POST["preco"]) ? floatval(str_replace(',', '.', $_POST["preco"])) : 0;
+    $estoque = isset($_POST["estoque"]) ? intval($_POST["estoque"]) : 1;
 
-    if (!empty($nome) && $id_categoria > 0 && count($ingredientes) > 0) {
+    // Arrays vindos da ficha técnica dinâmica
+    $ingredientes = isset($_POST["ingredientes"]) && is_array($_POST["ingredientes"]) ? $_POST["ingredientes"] : [];
+    $quantidades = isset($_POST["quantidades"]) && is_array($_POST["quantidades"]) ? $_POST["quantidades"] : [];
+
+    // Filtra apenas ingredientes válidos (id > 0 e quantidade > 0)
+    $itens_ficha = [];
+    for ($i = 0; $i < count($ingredientes); $i++) {
+        $id_ing = intval($ingredientes[$i]);
+        $qtd_ing = isset($quantidades[$i]) ? floatval(str_replace(',', '.', $quantidades[$i])) : 0;
+        if ($id_ing > 0 && $qtd_ing > 0) {
+            $itens_ficha[] = ['id' => $id_ing, 'qtd' => $qtd_ing];
+        }
+    }
+
+    // Verifica se a categoria selecionada é de pizza (contém "pizza")
+    $eh_pizza = false;
+    if ($id_categoria > 0) {
+        $stmt_cat = mysqli_prepare($conexao, "SELECT nome FROM categoria WHERE id = ? LIMIT 1");
+        if ($stmt_cat) {
+            mysqli_stmt_bind_param($stmt_cat, "i", $id_categoria);
+            mysqli_stmt_execute($stmt_cat);
+            $res_cat = mysqli_stmt_get_result($stmt_cat);
+            if ($res_cat && $row_cat = mysqli_fetch_assoc($res_cat)) {
+                $nome_cat = mb_strtolower(trim($row_cat["nome"]), 'UTF-8');
+                $eh_pizza = (mb_strpos($nome_cat, 'pizza', 0, 'UTF-8') !== false);
+            }
+        }
+    }
+
+    if (empty($nome) || $id_categoria <= 0 || $preco <= 0 || $estoque < 0) {
+        $mensagem = "Preencha nome, categoria, preço válido e estoque!";
+    } elseif ($eh_pizza && count($itens_ficha) === 0) {
+        $mensagem = "Para categorias de pizza, adicione pelo menos um ingrediente na ficha técnica!";
+    } else {
         // Inicia transação para garantir total integridade e segurança no banco de dados
         mysqli_begin_transaction($conexao);
 
@@ -23,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql_prod = "INSERT INTO produto (nome, id_categoria, preco, estoque) VALUES (?, ?, ?, ?)";
             $stmt_prod = mysqli_prepare($conexao, $sql_prod);
             mysqli_stmt_bind_param($stmt_prod, "sidi", $nome, $id_categoria, $preco, $estoque);
-            
+
             if (!mysqli_stmt_execute($stmt_prod)) {
                 throw new Exception("Erro ao cadastrar o produto: " . mysqli_error($conexao));
             }
@@ -31,42 +61,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Recupera o ID do produto recém-cadastrado
             $id_produto = mysqli_insert_id($conexao);
 
-            // 2. Processa cada ingrediente da ficha técnica
-            for ($i = 0; $i < count($ingredientes); $i++) {
-                $id_ingrediente = intval($ingredientes[$i]);
-                $qtd_unitaria = floatval($quantidades[$i]); // Quantidade gasta para fazer APENAS 1 unidade do produto
+            // 2. Processa cada ingrediente da ficha técnica (quando houver)
+            foreach ($itens_ficha as $item) {
+                $id_ingrediente = $item['id'];
+                $qtd_unitaria = $item['qtd'];
 
-                if ($id_ingrediente > 0 && $qtd_unitaria > 0) {
-                    // Grava na tabela de ligação da ficha técnica (armazena a quantidade unitária padrão)
-                    $sql_ligacao = "INSERT INTO produto_ingrediente (id_produto, id_ingrediente, quantidade_necessaria) VALUES (?, ?, ?)";
-                    $stmt_ligacao = mysqli_prepare($conexao, $sql_ligacao);
-                    mysqli_stmt_bind_param($stmt_ligacao, "iid", $id_produto, $id_ingrediente, $qtd_unitaria);
-                    mysqli_stmt_execute($stmt_ligacao);
+                $sql_ligacao = "INSERT INTO produto_ingrediente (id_produto, id_ingrediente, quantidade_necessaria) VALUES (?, ?, ?)";
+                $stmt_ligacao = mysqli_prepare($conexao, $sql_ligacao);
+                mysqli_stmt_bind_param($stmt_ligacao, "iid", $id_produto, $id_ingrediente, $qtd_unitaria);
+                mysqli_stmt_execute($stmt_ligacao);
 
-                    // CÁLCULO MATEMÁTICO PROPORCIONAL DO LOTE:
-                    // Total consumido = Quantidade Unitária x Quantidade de produtos colocados no estoque
-                    $qtd_total_consumida = $qtd_unitaria * $estoque;
+                $qtd_total_consumida = $qtd_unitaria * $estoque;
 
-                    // Desconta o total proporcional do estoque atual do ingrediente no banco
-                    $sql_baixa = "UPDATE ingrediente SET quantidade_atual = GREATEST(0, quantidade_atual - ?) WHERE id = ?";
-                    $stmt_baixa = mysqli_prepare($conexao, $sql_baixa);
-                    mysqli_stmt_bind_param($stmt_baixa, "di", $qtd_total_consumida, $id_ingrediente);
-                    mysqli_stmt_execute($stmt_baixa);
-                }
+                $sql_baixa = "UPDATE ingrediente SET quantidade_atual = GREATEST(0, quantidade_atual - ?) WHERE id = ?";
+                $stmt_baixa = mysqli_prepare($conexao, $sql_baixa);
+                mysqli_stmt_bind_param($stmt_baixa, "di", $qtd_total_consumida, $id_ingrediente);
+                mysqli_stmt_execute($stmt_baixa);
             }
 
-            // Confirma todas as operações na base de dados com sucesso
             mysqli_commit($conexao);
+
+            if (function_exists("sincronizar_bd_sql")) {
+                sincronizar_bd_sql($conexao);
+            }
+
             $sucesso = true;
-            $mensagem = "Produto cadastrado, ficha técnica salva e estoque dos ingredientes descontado proporcionalmente com sucesso!";
+            $mensagem = count($itens_ficha) > 0
+                ? "Produto cadastrado, ficha técnica salva e estoque dos ingredientes descontado proporcionalmente com sucesso!"
+                : "Produto cadastrado com sucesso no banco de dados!";
 
         } catch (Throwable $e) {
-            // Em caso de qualquer falha, desfaz todas as alterações garantindo consistência
             mysqli_rollback($conexao);
             $mensagem = "Erro ao processar o cadastro: " . $e->getMessage();
         }
-    } else {
-        $mensagem = "Preencha todos os campos obrigatórios e adicione pelo menos um ingrediente na ficha técnica!";
     }
 } else {
     header("Location: form_cad_produto.php");

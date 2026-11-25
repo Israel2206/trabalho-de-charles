@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 // Inclui a conexão com o banco de dados
 include "conexao.php";
 
@@ -33,6 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (mysqli_stmt_execute($stmt)) {
                 $sucesso = true;
                 $mensagem = "Ingrediente salvo com sucesso no banco de dados!";
+                if (function_exists("sincronizar_bd_sql")) {
+                    sincronizar_bd_sql($conexao);
+                }
             } else {
                 $mensagem = "Erro ao cadastrar ingrediente: " . mysqli_error($conexao);
             }

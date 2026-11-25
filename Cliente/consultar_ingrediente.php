@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 // Inclui a conexão com o banco de dados
 include "conexao.php";
 
@@ -11,6 +12,9 @@ if (isset($_GET['acao']) && $_GET['acao'] === 'excluir' && isset($_GET['id'])) {
         $stmt_del = mysqli_prepare($conexao, $sql_del);
         mysqli_stmt_bind_param($stmt_del, "i", $id_excluir);
         mysqli_stmt_execute($stmt_del);
+        if (function_exists("sincronizar_bd_sql")) {
+            sincronizar_bd_sql($conexao);
+        }
     }
     
     // Recarrega a própria página limpa (sem parâmetros GET) mantendo o usuário na tela
@@ -117,7 +121,7 @@ $total_ingredientes = ($resultado) ? mysqli_num_rows($resultado) : 0;
                                         
                                         <a href="consultar_ingrediente.php?acao=excluir&id=<?= (int)$linha['id'] ?>" 
                                            class="btn-action-danger" 
-                                           onclick="return confirm('Deseja realmente excluir o ingrediente <?= htmlspecialchars($linha['nome'], ENT_QUOTES, 'QUOTES') ?>?');">
+                                           onclick="return confirm('Deseja realmente excluir o ingrediente <?= htmlspecialchars($linha['nome'], ENT_QUOTES, 'UTF-8') ?>?');">
                                             Excluir
                                         </a>
                                     </td>
