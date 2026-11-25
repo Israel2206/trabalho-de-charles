@@ -1,0 +1,108 @@
+/* ==========================================
+   ESTILOS ESPECÍFICOS - MÓDULO DE INGREDIENTES
+   ========================================== */
+
+/* Alinhamento flexível para o título com a logo nas consultas */
+.title-with-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Estilização da logo redonda nos cabeçalhos das tabelas */
+.section-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #ffffff;
+    padding: 3px;
+    border: 2.5px solid #fcd34d;
+    box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
+}
+
+/* ==========================================
+   ESTILOS DO MÓDULO DE INGREDIENTES E FICHA TÉCNICA
+   ========================================== */
+
+   .title-with-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.section-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #ffffff;
+    padding: 3px;
+    border: 2.5px solid #fcd34d;
+    box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
+}
+
+/* Seção da Ficha Técnica no Cadastro de Produtos */
+.ingredients-section {
+    background: #fdfbf7;
+    border: 2px dashed #f59e0b;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.ingredients-section-label {
+    font-weight: bold;
+    color: #78350f;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.ingredient-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.ingredient-select {
+    flex: 2;
+}
+
+.ingredient-input-qtd {
+    flex: 1;
+}
+
+.btn-remove-ing {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-remove-ing:hover {
+    background-color: #dc2626;
+}
+
+.btn-add-ing {
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.btn-add-ing:hover {
+    background-color: #059669;
+}
+
+.ingredients-empty-msg {
+    color: #b45309;
+    font-size: 13px;
+}

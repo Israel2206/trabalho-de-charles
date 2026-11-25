@@ -1,0 +1,770 @@
+/* ==========================================
+   ESTILO EXCLUSIVO DA VITRINE DO CLIENTE
+   ========================================== */
+
+   body.cliente-body {
+    margin: 0;
+    background-color: #faf7f2;
+    color: #1c1917;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Menu superior próprio do cliente */
+.cliente-topbar {
+    background-color: #ffffff;
+    border-bottom: 3px solid #d97706;
+    padding: 12px 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 18px rgba(28, 25, 23, 0.08);
+}
+
+.cliente-brand img {
+    height: 72px;
+    width: auto;
+    display: block;
+    transition: transform 0.25s ease;
+}
+
+.cliente-brand img:hover {
+    transform: scale(1.04);
+}
+
+.cliente-menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cliente-menu a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+}
+
+.cliente-link {
+    color: #292524;
+    background-color: #f5f5f4;
+}
+
+.cliente-link:hover {
+    background-color: #fde68a;
+    color: #991b1b;
+}
+
+.cliente-cta {
+    background-color: #d97706;
+    color: #ffffff;
+}
+
+.cliente-cta:hover {
+    background-color: #b45309;
+    transform: translateY(-1px);
+}
+
+.cliente-btn-sec {
+    background-color: #ffffff;
+    color: #991b1b;
+    border: 1.5px solid #991b1b;
+}
+
+.cliente-btn-sec:hover {
+    background-color: #fef2f2;
+}
+
+.cliente-btn-login {
+    background-color: #991b1b;
+    color: #ffffff;
+}
+
+.cliente-btn-login:hover {
+    background-color: #7f1d1d;
+    transform: translateY(-1px);
+}
+
+/* Container principal */
+.cliente-main {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Banner deslizante 100% visível sem corte */
+.cliente-banner-box {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #18181b;
+}
+
+.cliente-banner-trilho {
+    display: flex;
+    width: 100%;
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cliente-banner-item {
+    min-width: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cliente-banner-item a {
+    display: block;
+    width: 100%;
+}
+
+.cliente-banner-item img {
+    width: 100%;
+    height: auto;
+    max-height: 560px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.cliente-banner-seta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background-color: #f59e0b;
+    color: #18181b;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 5;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.cliente-banner-seta:hover {
+    background-color: #fbbf24;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.cliente-banner-seta.esq {
+    left: 22px;
+}
+
+.cliente-banner-seta.dir {
+    right: 22px;
+}
+
+.cliente-banner-pontos {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 5;
+}
+
+.cliente-banner-pontos .ponto {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background-color: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.25s ease;
+}
+
+.cliente-banner-pontos .ponto.ativo {
+    width: 28px;
+    border-radius: 999px;
+    background-color: #f59e0b;
+    border-color: #f59e0b;
+}
+
+/* Seção #Top Pizzas mais pedidas */
+.top-pedidas-wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 64px 24px 72px;
+}
+
+.top-pedidas-topo {
+    text-align: center;
+    margin-bottom: 44px;
+}
+
+.top-pedidas-topo h2 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1c1917;
+    letter-spacing: -0.4px;
+}
+
+.top-pedidas-topo p {
+    margin: 0;
+    font-size: 15px;
+    color: #57534e;
+    line-height: 1.5;
+}
+
+.top-pedidas-lista {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.top-pedida-card {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+    border-radius: 20px;
+    background-color: #ffffff;
+    border: 1px solid #f5f5f4;
+    box-shadow: 0 8px 24px rgba(28, 25, 23, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.top-pedida-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 28px rgba(217, 119, 6, 0.16);
+    border-color: #fcd34d;
+}
+
+.top-pedida-disco {
+    width: 195px;
+    height: 195px;
+    border-radius: 0;
+    overflow: visible;
+    background-color: transparent;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.top-pedida-disco img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.top-pedida-titulo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1c1917;
+}
+
+@media (max-width: 980px) {
+    .top-pedidas-lista {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cliente-banner-item img {
+        max-height: 420px;
+    }
+}
+
+@media (max-width: 640px) {
+    .cliente-topbar {
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 16px;
+        position: static;
+    }
+
+    .cliente-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .cliente-banner-item img {
+        max-height: 280px;
+    }
+
+    .top-pedidas-lista {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================
+   FORMULÁRIO FAZER PEDIDO (VITRINE CLIENTE)
+   ========================================== */
+
+   .pedido-cliente-section {
+    max-width: 760px;
+    margin: 48px auto 64px;
+    padding: 0 20px;
+}
+
+.pedido-cliente-card {
+    background-color: #ffffff;
+    border-radius: 22px;
+    padding: 36px 34px;
+    border: 1px solid #f5f5f4;
+    box-shadow: 0 12px 32px rgba(28, 25, 23, 0.08);
+}
+
+.pedido-cliente-topo {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.pedido-selo {
+    display: inline-block;
+    background-color: #fef3c7;
+    color: #991b1b;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+
+.pedido-cliente-topo h1 {
+    margin: 0 0 8px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #1c1917;
+}
+
+.pedido-cliente-topo p {
+    margin: 0;
+    font-size: 14px;
+    color: #57534e;
+}
+
+.pedido-alerta-sucesso,
+.pedido-alerta-erro {
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.pedido-alerta-sucesso {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.pedido-alerta-erro {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.pedido-form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pedido-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pedido-campo label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #292524;
+}
+
+.pedido-campo select,
+.pedido-campo input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    color: #1c1917;
+    background-color: #fafaf9;
+    border: 1.5px solid #e7e5e4;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.pedido-campo select:focus,
+.pedido-campo input[type="number"]:focus {
+    border-color: #d97706;
+    background-color: #ffffff;
+}
+
+.pedido-ajuda {
+    font-size: 12px;
+    color: #78716c;
+}
+
+.pedido-ajuda a {
+    color: #991b1b;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.pedido-ajuda a:hover {
+    text-decoration: underline;
+}
+
+.pedido-linha-dupla {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 18px;
+    align-items: stretch;
+}
+
+.pedido-resumo-box {
+    background-color: #fffbeb;
+    border: 1.5px solid #fde68a;
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.resumo-rotulo {
+    font-size: 12px;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.resumo-valor {
+    font-size: 22px;
+    font-weight: 700;
+    color: #991b1b;
+    line-height: 1.25;
+}
+
+.resumo-estoque {
+    font-size: 12px;
+    color: #57534e;
+}
+
+.pedido-acoes {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.btn-pedido-confirmar {
+    flex: 1;
+    padding: 13px 22px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    background-color: #b91c1c;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-pedido-confirmar:hover {
+    background-color: #991b1b;
+    transform: translateY(-1px);
+}
+
+.btn-pedido-voltar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #292524;
+    background-color: #f5f5f4;
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-pedido-voltar:hover {
+    background-color: #e7e5e4;
+}
+
+@media (max-width: 640px) {
+    .pedido-cliente-card {
+        padding: 24px 18px;
+    }
+
+    .pedido-linha-dupla {
+        grid-template-columns: 1fr;
+    }
+
+    .pedido-acoes {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================
+   FORMULÁRIOS E BOTÕES PROFISSIONAIS (CLIENTE)
+   ========================================== */
+
+   .pedido-cliente-section {
+    max-width: 680px;
+    margin: 48px auto 68px;
+    padding: 0 20px;
+}
+
+.pedido-cliente-card {
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 40px 38px;
+    border: 1px solid #f0ece6;
+    box-shadow: 0 16px 38px rgba(28, 25, 23, 0.08);
+}
+
+.pedido-cliente-topo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.pedido-selo {
+    display: inline-block;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #991b1b;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+    border: 1px solid #fcd34d;
+}
+
+.pedido-cliente-topo h1 {
+    margin: 0 0 8px;
+    font-size: 31px;
+    font-weight: 700;
+    color: #1c1917;
+    letter-spacing: -0.4px;
+}
+
+.pedido-cliente-topo p {
+    margin: 0 auto;
+    max-width: 480px;
+    font-size: 14px;
+    color: #57534e;
+    line-height: 1.55;
+}
+
+.pedido-alerta-sucesso,
+.pedido-alerta-erro {
+    padding: 15px 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.pedido-alerta-sucesso {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.pedido-alerta-erro {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.pedido-form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.pedido-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.pedido-campo label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #292524;
+}
+
+.pedido-campo input[type="text"],
+.pedido-campo input[type="email"],
+.pedido-campo input[type="password"],
+.pedido-campo input[type="number"],
+.pedido-campo select {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    color: #1c1917;
+    background-color: #fafaf9;
+    border: 1.5px solid #e7e5e4;
+    border-radius: 12px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pedido-campo input::placeholder {
+    color: #a8a29e;
+}
+
+.pedido-campo input:focus,
+.pedido-campo select:focus {
+    border-color: #d97706;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.12);
+}
+
+.pedido-ajuda {
+    font-size: 12.5px;
+    color: #78716c;
+}
+
+.pedido-ajuda a {
+    color: #991b1b;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.pedido-ajuda a:hover {
+    text-decoration: underline;
+}
+
+.pedido-linha-dupla {
+    display: grid;
+    grid-template-columns: 165px 1fr;
+    gap: 18px;
+    align-items: stretch;
+}
+
+.pedido-resumo-box {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border: 1.5px solid #fcd34d;
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.resumo-rotulo {
+    font-size: 12px;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.resumo-valor {
+    font-size: 22px;
+    font-weight: 700;
+    color: #991b1b;
+    line-height: 1.25;
+}
+
+.resumo-estoque {
+    font-size: 12px;
+    color: #57534e;
+}
+
+/* Botões principais e secundários estilizados */
+.pedido-acoes {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.btn-pedido-confirmar {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.2px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    border: 1.5px solid #991b1b;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(153, 27, 27, 0.24);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-pedido-confirmar:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.04);
+    box-shadow: 0 12px 22px rgba(153, 27, 27, 0.32);
+}
+
+.btn-pedido-confirmar:active {
+    transform: translateY(0);
+}
+
+.btn-pedido-voltar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 22px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    color: #991b1b;
+    background-color: #fffbeb;
+    border: 1.5px solid #f59e0b;
+    border-radius: 12px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-pedido-voltar:hover {
+    background-color: #fef3c7;
+    color: #7f1d1d;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+    .pedido-cliente-card {
+        padding: 26px 20px;
+        border-radius: 18px;
+    }
+
+    .pedido-linha-dupla {
+        grid-template-columns: 1fr;
+    }
+
+    .pedido-acoes {
+        flex-direction: column;
+    }
+
+    .btn-pedido-confirmar,
+    .btn-pedido-voltar {
+        width: 100%;
+    }
+}

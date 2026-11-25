@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Consulta os produtos trazendo o nome da categoria associada via LEFT JOIN
@@ -55,24 +56,24 @@ $total_prod = ($resultado) ? mysqli_num_rows($resultado) : 0;
                         <?php if ($total_prod > 0): ?>
                             <?php while ($linha = mysqli_fetch_assoc($resultado)): ?>
                                 <tr>
-                                    <td><strong>#<?= $linha['id'] ?></strong></td>
-                                    <td><span class="category-name"><?= htmlspecialchars($linha['nome']) ?></span></td>
+                                    <td><strong>#<?= (int) $linha['id'] ?></strong></td>
+                                    <td><span class="category-name"><?= htmlspecialchars($linha['nome'], ENT_QUOTES, 'UTF-8') ?></span></td>
                                     <td>
                                         <span class="badge-categoria">
-                                            <?= htmlspecialchars($linha['categoria_nome'] ?: 'Sem categoria') ?>
+                                            <?= htmlspecialchars($linha['categoria_nome'] ?: 'Sem categoria', ENT_QUOTES, 'UTF-8') ?>
                                         </span>
                                     </td>
-                                    <td><strong>R$ <?= number_format($linha['preco'], 2, ',', '.') ?></strong></td>
+                                    <td><strong>R$ <?= number_format((float) $linha['preco'], 2, ',', '.') ?></strong></td>
                                     <td>
-                                        <?php if ($linha['estoque'] > 0): ?>
-                                            <span class="estoque-ok"><?= $linha['estoque'] ?> un.</span>
+                                        <?php if ((int) $linha['estoque'] > 0): ?>
+                                            <span class="estoque-ok"><?= (int) $linha['estoque'] ?> un.</span>
                                         <?php else: ?>
                                             <span class="estoque-esgotado">Esgotado</span>
                                         <?php endif; ?>
                                     </td>
                                     <td class="cell-actions">
-                                        <a href="editar.php?tabela=produto&id=<?= $linha['id'] ?>" class="btn-action-edit">Editar</a>
-                                        <a href="excluir.php?tabela=produto&id=<?= $linha['id'] ?>" class="btn-action-danger" onclick="return confirm('Deseja realmente excluir este produto?');">Excluir</a>
+                                        <a href="editar.php?tabela=produto&id=<?= (int) $linha['id'] ?>" class="btn-action-edit">Editar</a>
+                                        <a href="excluir.php?tabela=produto&id=<?= (int) $linha['id'] ?>" class="btn-action-danger" onclick="return confirm('Deseja realmente excluir este produto?');">Excluir</a>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
