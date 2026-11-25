@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Captura os filtros e a busca enviados via GET
@@ -148,13 +149,20 @@ if ($filtro === 'media') {
                     <tbody>
                         <?php if ($total_ped > 0): ?>
                             <?php while ($linha = mysqli_fetch_assoc($resultado)): ?>
+                                <?php
+                                $qtd_item = (int) ($linha['quantidade'] ?: 1);
+                                $preco_unit_item = (float) ($linha['preco_unitario'] ?: 0);
+                                $valor_linha = ($preco_unit_item > 0)
+                                    ? ($qtd_item * $preco_unit_item)
+                                    : (float) ($linha['valor_total'] ?: 0);
+                                ?>
                                 <tr>
                                     <td><strong>#<?= (int)$linha['id'] ?></strong></td>
                                     <td><span class="category-name"><?= htmlspecialchars($linha['cliente_nome']) ?></span></td>
                                     <td><span class="category-desc"><?= htmlspecialchars($linha['produto_nome'] ?: 'Item avulso') ?></span></td>
-                                    <td><?= (int)($linha['quantidade'] ?: 1) ?></td>
-                                    <td>R$ <?= number_format($linha['preco_unitario'] ?: 0, 2, ',', '.') ?></td>
-                                    <td><strong class="valor-total">R$ <?= number_format($linha['valor_total'], 2, ',', '.') ?></strong></td>
+                                    <td><?= $qtd_item ?></td>
+                                    <td>R$ <?= number_format($preco_unit_item, 2, ',', '.') ?></td>
+                                    <td><strong class="valor-total">R$ <?= number_format($valor_linha, 2, ',', '.') ?></strong></td>
                                     <td>
                                         <?php 
                                         if (!empty($linha['data_pedido'])) {

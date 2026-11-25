@@ -1,4 +1,5 @@
 <?php
+include "verifica_admin.php";
 include "conexao.php";
 
 // Inicialização das variáveis de contagem para evitar avisos
