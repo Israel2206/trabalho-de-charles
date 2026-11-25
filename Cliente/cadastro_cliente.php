@@ -84,11 +84,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Cliente - Pizzaria da Chapada</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/base.css?v=18.0">
-    <link rel="stylesheet" href="style/rodape.css?v=18.0">
-    <link rel="stylesheet" href="style/vitrine.css?v=18.0">
+    <link rel="stylesheet" href="style/base.css?v=25.0">
+    <link rel="stylesheet" href="style/rodape.css?v=25.0">
+    <link rel="stylesheet" href="style/vitrine.css?v=26.0">
 </head>
-<body class="cliente-body">
+<body class="cliente-body bg-pizzaria">
 
     <header class="cliente-topbar">
         <a href="index1.php" class="cliente-brand">
