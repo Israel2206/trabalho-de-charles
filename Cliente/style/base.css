@@ -2,6 +2,12 @@
    BASE — estilos globais da aplicação
    ========================================== */
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body.bg-pizzaria,
 body.cliente-body {
     font-family: 'Poppins', sans-serif;
@@ -32,4 +38,11 @@ body.cliente-body {
     padding: 20px;
     width: 100%;
     flex: 1;
+}
+
+@media (max-width: 768px) {
+    .main-wrapper {
+        margin: 15px auto;
+        padding: 12px;
+    }
 }

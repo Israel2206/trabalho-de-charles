@@ -83,3 +83,36 @@
     font-size: 14px;
     color: #4b5563;
 }
+
+@media (max-width: 640px) {
+    .painel-title {
+        margin-bottom: 20px;
+    }
+
+    .painel-title h2 {
+        font-size: 22px;
+    }
+
+    .painel-title p {
+        font-size: 14px;
+    }
+
+    .dominos-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .dominos-card {
+        padding: 20px 16px;
+    }
+
+    .card-actions {
+        flex-direction: column;
+    }
+
+    .card-actions .btn-dominos {
+        width: 100%;
+        text-align: center;
+    }
+}

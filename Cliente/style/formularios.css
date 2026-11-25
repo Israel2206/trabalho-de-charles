@@ -144,11 +144,23 @@
 @media (max-width: 850px) {
     .split-container {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 24px;
         margin: 20px auto;
+        padding: 0 14px;
     }
 
     .form-row {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .split-form-card {
+        padding: 22px 16px;
+        border-radius: 16px;
+    }
+
+    .split-art .art-image {
+        max-width: 180px;
     }
 }

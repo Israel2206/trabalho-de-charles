@@ -64,3 +64,16 @@
 .ifba-footer-bottom p {
     margin: 4px 0;
 }
+
+@media (max-width: 640px) {
+    .ifba-footer-main {
+        padding: 24px 16px;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .ifba-footer-bottom {
+        padding: 14px 12px;
+        font-size: 12px;
+    }
+}

@@ -201,3 +201,33 @@
     background-color: #d1fae5;
     color: #065f46;
 }
+
+@media (max-width: 768px) {
+    .filter-pills {
+        justify-content: center;
+    }
+
+    .search-box {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .search-input {
+        width: 100%;
+        flex: 1 1 160px;
+    }
+
+    .media-stats {
+        gap: 12px;
+    }
+
+    .media-stat {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-btn {
+        width: 100%;
+    }
+}

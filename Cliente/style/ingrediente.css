@@ -1,31 +1,8 @@
 /* ==========================================
-   ESTILOS ESPECÍFICOS - MÓDULO DE INGREDIENTES
-   ========================================== */
-
-/* Alinhamento flexível para o título com a logo nas consultas */
-.title-with-logo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Estilização da logo redonda nos cabeçalhos das tabelas */
-.section-logo {
-    width: 70px;
-    height: 70px;
-    object-fit: contain;
-    border-radius: 50%;
-    background: #ffffff;
-    padding: 3px;
-    border: 2.5px solid #fcd34d;
-    box-shadow: 0 4px 12px rgba(120, 53, 15, 0.2);
-}
-
-/* ==========================================
    ESTILOS DO MÓDULO DE INGREDIENTES E FICHA TÉCNICA
    ========================================== */
 
-   .title-with-logo {
+.title-with-logo {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -105,4 +82,17 @@
 .ingredients-empty-msg {
     color: #b45309;
     font-size: 13px;
+}
+
+@media (max-width: 640px) {
+    .ingredient-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ingredient-select,
+    .ingredient-input-qtd,
+    .btn-remove-ing {
+        width: 100%;
+    }
 }

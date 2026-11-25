@@ -164,5 +164,23 @@
         margin-left: 0;
         padding-left: 0;
         border-left: none;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .menu-ifba .logo-img {
+        height: 64px;
+    }
+
+    .menu-ifba .item-menu > a {
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+
+    .menu-ifba .submenu {
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: calc(100vw - 24px);
     }
 }

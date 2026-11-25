@@ -767,3 +767,25 @@ body.cliente-body {
         width: 100%;
     }
 }
+
+@media (max-width: 480px) {
+    .cliente-brand img {
+        height: 56px;
+    }
+
+    .cliente-menu a {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .cliente-banner-seta {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    .top-pedidas-lista {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}

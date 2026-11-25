@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style/menu.css?v=11.0">
+<link rel="stylesheet" href="style/menu.css?v=27.0">
 
 <nav class="menu-ifba">
     <div class="logo-container">
